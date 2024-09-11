@@ -15,6 +15,7 @@ namespace FishInvader
         public static readonly int HEIGHT = 600;
 
         private List<Fish> fleet;                     // La flotte des drones
+        private List<BadFish> badfleet;               //flotte de machant poison
         private BufferedGraphicsContext currentContext;
         private BufferedGraphics airspace;
 
@@ -23,11 +24,12 @@ namespace FishInvader
         private const int MOVE_SPEED = 3; // Vitesse de déplacement du drone
 
         // Initialisation de l'espace aérien avec un certain nombre de drones
-        public AirSpace(List<Fish> fleet) : base()
+        public AirSpace(List<Fish> fleet, List<BadFish> badfleet) : base()
         {
             InitializeComponent();
 
             this.fleet = fleet;
+            this.badfleet = badfleet;
 
             // Gets a reference to the current BufferedGraphicsContext
             currentContext = BufferedGraphicsManager.Current;
@@ -44,6 +46,7 @@ namespace FishInvader
             this.KeyPreview = true;
         }
 
+
         // Gestion des appuis sur les touches clavier
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
@@ -55,6 +58,8 @@ namespace FishInvader
                 moveLeft = true;
             if (e.KeyCode == Keys.D)
                 moveRight = true;
+            if (e.KeyCode == Keys.Escape)
+                Environment.Exit(0);
         }
 
         // Gestion du relâchement des touches clavier
@@ -73,10 +78,17 @@ namespace FishInvader
         // Calcul du nouvel état après que 'interval' millisecondes se sont écoulées
         private void Update(int interval)
         {
-            foreach (Fish drone in fleet)
+            foreach (Fish fish in fleet)
             {
-                drone.Update(moveUp, moveDown, moveLeft, moveRight, MOVE_SPEED);
+                fish.Update(moveUp, moveDown, moveLeft, moveRight, MOVE_SPEED);
             }
+
+            foreach (BadFish badfish in badfleet)
+            {
+                badfish.Update();
+            }
+
+
         }
 
         // Affichage de la situation actuelle
@@ -85,9 +97,14 @@ namespace FishInvader
             airspace.Graphics.Clear(Color.AliceBlue);
 
             // Dessin des drones
-            foreach (Fish drone in fleet)
+            foreach (Fish fish in fleet)
             {
-                drone.Render(airspace);
+                fish.Render(airspace);
+            }
+
+            foreach (BadFish badfish in badfleet)
+            {
+                badfish.Render(airspace);
             }
 
             airspace.Render();

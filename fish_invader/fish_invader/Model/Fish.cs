@@ -8,6 +8,10 @@
         private string _name;                           // Un nom
         private int _x;                                 // Position en X depuis la gauche de l'espace aérien
         private int _y;                                 // Position en Y depuis le haut de l'espace aérien
+        public bool facing_left;
+
+
+        public Image FishImage { get; private set; }
 
         // Constructeur
         public Fish(int x, int y, string name)
@@ -16,6 +20,9 @@
             _y = y;
             _name = name;
             _charge = GlobalHelpers.alea.Next(FULLCHARGE); // La charge initiale de la batterie est choisie aléatoirement
+
+            FishImage = Image.FromFile("fish.png");
+
         }
         public int X { get { return _x; } }
         public int Y { get { return _y; } }
@@ -43,12 +50,14 @@
             {
                 _x -= speed;
                 moved = true;
+                facing_left = true;
             }
 
             if (moveRight)
             {
                 _x += speed;
                 moved = true;
+                facing_left = false;
             }
 
             // Décharge de la batterie uniquement si le drone bouge

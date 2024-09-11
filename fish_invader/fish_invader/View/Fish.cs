@@ -12,10 +12,14 @@ namespace FishInvader
         // De manière graphique
         public void Render(BufferedGraphics drawingSpace)
         {
-            drawingSpace.Graphics.DrawEllipse(droneBrush, new Rectangle(X - 6, Y - 2, 15, 8));
-            drawingSpace.Graphics.DrawEllipse(droneBrush, new Rectangle(X +10, Y - 2, 5, 8));
-            drawingSpace.Graphics.DrawEllipse(droneBrushblack, new Rectangle(X - 5, Y , 4, 4));
-            drawingSpace.Graphics.DrawString($"{this}", TextHelpers.drawFont, TextHelpers.writingBrush, X -25, Y - 25);
+
+
+            drawingSpace.Graphics.TranslateTransform(X, Y); // Déplace l'origine du dessin au centre du cowboy
+            drawingSpace.Graphics.DrawImage(FishImage, -FishImage.Width / 2, -FishImage.Height / 2);
+            drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
+
+
+
         }
 
         // De manière textuelle
