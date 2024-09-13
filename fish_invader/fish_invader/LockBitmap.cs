@@ -1,4 +1,4 @@
-﻿// LockBitmap.cs
+﻿// LockBitmap.cs / dack magic
 
 using System;
 using System.Drawing;
@@ -24,7 +24,7 @@ namespace Efundies
         }
 
         /// <summary>
-        /// Lock bitmap data
+        /// dack magic
         /// </summary>
         public void LockBits()
         {
