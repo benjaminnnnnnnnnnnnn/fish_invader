@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 
 namespace FishInvader
@@ -59,7 +60,11 @@ namespace FishInvader
             if (e.KeyCode == Keys.D)
                 moveRight = true;
             if (e.KeyCode == Keys.Escape)
+            {
                 Environment.Exit(0);
+                
+            }
+
         }
 
         // Gestion du relâchement des touches clavier
@@ -94,7 +99,7 @@ namespace FishInvader
         // Affichage de la situation actuelle
         private void Render()
         {
-            airspace.Graphics.Clear(Color.AliceBlue);
+            airspace.Graphics.Clear(Color.Aqua);
 
             // Dessin des drones
             foreach (Fish fish in fleet)
@@ -105,6 +110,8 @@ namespace FishInvader
             foreach (BadFish badfish in badfleet)
             {
                 badfish.Render(airspace);
+
+                
             }
 
             airspace.Render();
@@ -116,5 +123,13 @@ namespace FishInvader
             this.Update(ticker.Interval);
             this.Render();
         }
+
+
+
+
+
+
+
+
     }
 }

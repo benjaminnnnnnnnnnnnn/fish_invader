@@ -5,31 +5,54 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
+using System.Windows.Forms;
+using Efundies;
 
 namespace FishInvader
 {
     public partial class BadFish
     {
-
+        public static Image originalfish = Image.FromFile("fish.png");
         private int _x;                                 // Position en X depuis la gauche de l'espace aérien
         private int _y;                                 // Position en Y depuis le haut de l'espace aérien
         private string _name;
         private int _speed;
+        private bool _IsPng = false;
+        private int _id;
+        private Image BadFiashImage;
+
+        public Image BadFishImage { get; private set; }
 
         // Constructeur
-        public BadFish(string name)
+        public BadFish(string name, int i)
         {
 
-            _x = GlobalHelpers.alea.Next(0,1200);
-            _y = GlobalHelpers.alea.Next(0,200);
+            _x = GlobalHelpers.alea.Next(0, 1200);
+            _y = GlobalHelpers.alea.Next(0, 600);
             _name = name;
             _speed = GlobalHelpers.alea.Next(1, 6);
-            
+            if ((GlobalHelpers.alea.Next(0, 101)) == 100)
+                _IsPng = true;
 
+            //BadFishImage = Image.FromFile("fishpng\\fish" + i + ".png");
+            //pour ne pas lock l'image
+
+            using (var bmpTemp = new Bitmap("fishpng\\fish" + i + ".png"))
+            {
+                BadFishImage = new Bitmap(bmpTemp);
+            }
+
+
+
+
+            _id = i;
         }
         public int X { get { return _x; } }
         public int Y { get { return _y; } }
         public string Name { get { return _name; } }
+        public bool IsPng { get { return _IsPng; } }
+
 
 
         // Cette méthode calcule le nouvel état dans lequel le drone se trouve après
@@ -42,11 +65,43 @@ namespace FishInvader
 
             if (_x >= 1200)
             {
+
                 _x = 0;
-                _y = GlobalHelpers.alea.Next(0, 200);
+                _y = GlobalHelpers.alea.Next(0, 600);
                 _speed = GlobalHelpers.alea.Next(1, 6);
+                if ((GlobalHelpers.alea.Next(0, 101)) == 100)
+                    _IsPng = true;
+                else
+                    _IsPng = false;
+
+                _name = metode.RandomName();
+
+
+                //changer l'image du poisson
+
+                // Load the bitmap
+                var bmp = new Bitmap(@"fish.png");
+
+                // Perform color swapping
+                metode.SwapColor(bmp, Color.FromArgb(255, 163, 26), Color.FromArgb(GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256)));
+                metode.SwapColor(bmp, Color.FromArgb(250, 243, 64), Color.FromArgb(GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256)));
+                metode.SwapColor(bmp, Color.FromArgb(255, 85, 5), Color.FromArgb(GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256)));
+                metode.SwapColor(bmp, Color.FromArgb(31, 49, 125), Color.FromArgb(GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256)));
+
+                // Save the modified image
+                bmp.Save(@"fishpng\\fish" + _id + ".png", System.Drawing.Imaging.ImageFormat.Png);
+
+
+                //reprendre l'image après l'avoir changer
+                using (var bmpTemp = new Bitmap("fishpng\\fish" + _id + ".png"))
+                {
+                    BadFishImage = new Bitmap(bmpTemp);
+                }
+
+
+
             }
-           
+
         }
 
 

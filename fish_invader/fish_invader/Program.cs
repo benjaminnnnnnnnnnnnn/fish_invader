@@ -1,3 +1,6 @@
+using Efundies;
+using System.Xml.Linq;
+
 namespace FishInvader
 {
     internal static class Program
@@ -17,16 +20,41 @@ namespace FishInvader
             fleet.Add(new Fish(AirSpace.WIDTH / 2, AirSpace.HEIGHT / 2, "Fish"));
 
             List<BadFish> badfleet = new List<BadFish>();
-            
-            for (int i = 0; i < 10; i++)
+
+
+            string Name;
+            for (int i = 0; i < 50; i++)
             {
-                badfleet.Add(new BadFish(RandomName()));
+                Name = metode.RandomName();
+
+
+
+
+
+
+                // Load the bitmap
+                var bmp = new Bitmap(@"fish.png");
+
+                // Perform color swapping
+                metode.SwapColor(bmp, Color.FromArgb(255, 163, 26), Color.FromArgb(GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256)));
+                metode.SwapColor(bmp, Color.FromArgb(250, 243, 64), Color.FromArgb(GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256)));
+                metode.SwapColor(bmp, Color.FromArgb(255, 85, 5), Color.FromArgb(GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256)));
+                metode.SwapColor(bmp, Color.FromArgb(31, 49, 125), Color.FromArgb(GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256)));
+
+                // Save the modified image
+                bmp.Save(@"fishpng\\fish" + i + ".png", System.Drawing.Imaging.ImageFormat.Png);
+
+
+
+
+                badfleet.Add(new BadFish(Name, i));
+
             }
 
 
 
             // Démarrage
-            Application.Run(new AirSpace(fleet,badfleet));
+            Application.Run(new AirSpace(fleet, badfleet));
 
 
 
@@ -38,39 +66,8 @@ namespace FishInvader
 
 
 
-
-
-
-
-
-
-
-
-            static string RandomName()
-            {
-                string line;
-                int i = 0;
-
-                StreamReader sr = new StreamReader("first-names.txt");
-                string[] Names = new string[4946];
-
-                line = sr.ReadLine();
-
-
-                while (line != null)
-                {
-                    Names[i++] = line;
-
-                    //Read the next line
-                    line = sr.ReadLine();
-                }
-
-                Random rnd = new Random();
-
-                string randomName = Names[rnd.Next(4946)];
-
-                return randomName;
-            }
         }
+
+
     }
 }
