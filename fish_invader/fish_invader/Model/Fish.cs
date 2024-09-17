@@ -22,7 +22,6 @@
             _charge = GlobalHelpers.alea.Next(FULLCHARGE); // La charge initiale de la batterie est choisie aléatoirement
 
             FishImage = Image.FromFile("fish.png");
-
         }
         public int X { get { return _x; } }
         public int Y { get { return _y; } }

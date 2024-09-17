@@ -60,10 +60,7 @@ namespace FishInvader
             if (e.KeyCode == Keys.D)
                 moveRight = true;
             if (e.KeyCode == Keys.Escape)
-            {
-                Environment.Exit(0);
-                
-            }
+                Environment.Exit(0); 
 
         }
 
