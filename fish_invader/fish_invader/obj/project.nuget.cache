@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "M3ZKfYz2GYpsFOowvJPiMCGB+MW25bgujmCIpKm1Ha/4fRI6wRQ9jnsbD0Swzmgu85LdL9mbO+lY9R0YF6v6wQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\px25twk\\Downloads\\fish_invader-main\\fish_invader-main\\fish_invader\\fish_invader\\fish_invader.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\px25twk\\.nuget\\packages\\microsoft.win32.systemevents\\7.0.0\\microsoft.win32.systemevents.7.0.0.nupkg.sha512",
+    "C:\\Users\\px25twk\\.nuget\\packages\\system.drawing.common\\7.0.0\\system.drawing.common.7.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
