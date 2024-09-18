@@ -21,7 +21,7 @@ namespace FishInvader
 
             List<BadFish> badfleet = new List<BadFish>();
 
-
+            string fishfilepath = "originalfish\\fish20.png";
             string Name;
             for (int i = 0; i < 50; i++)
             {
@@ -29,11 +29,18 @@ namespace FishInvader
 
 
 
-
+                for (int j = 1; j < 21; j++)
+                {
+                    if (GlobalHelpers.alea.Next(1, 3) == 2)
+                    {
+                        fishfilepath = $"originalfish\\fish{j}.png";
+                        break;
+                    }
+                }
 
 
                 // Load the bitmap
-                var bmp = new Bitmap(@"fish.png");
+                var bmp = new Bitmap(fishfilepath);
 
                 // Perform color swapping
                 metode.SwapColor(bmp, Color.FromArgb(255, 163, 26), Color.FromArgb(GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256)));

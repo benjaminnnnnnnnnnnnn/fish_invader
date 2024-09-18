@@ -78,18 +78,45 @@ namespace FishInvader
         }
 
         // Calcul du nouvel état après que 'interval' millisecondes se sont écoulées
+
         private void Update(int interval)
         {
             foreach (Fish fish in fleet)
             {
                 fish.Update(moveUp, moveDown, moveLeft, moveRight, MOVE_SPEED);
             }
-
+            
+            bool hasCollided = false;
             foreach (BadFish badfish in badfleet)
             {
                 badfish.Update();
-            }
+                /*
+                foreach(Fish fish in fleet)
+                {
 
+                    if (badfish.badfishpicture.Bounds.IntersectsWith(fish.fishpicture.Bounds))
+                    {
+
+                        if (!hasCollided)
+                        {
+                            // Collision detected for the first time
+                            Console.Write("-1hp");
+                            hasCollided = true;  // Set flag to true to prevent repeated output
+                        }
+                    }
+                    else
+                    {
+                        // Reset the flag when the objects are no longer colliding
+                        hasCollided = false;
+                    }
+
+
+                }
+                */
+
+
+            }
+            
 
         }
 

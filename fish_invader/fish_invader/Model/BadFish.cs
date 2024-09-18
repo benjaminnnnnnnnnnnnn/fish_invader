@@ -13,20 +13,31 @@ namespace FishInvader
 {
     public partial class BadFish
     {
-        public static Image originalfish = Image.FromFile("fish.png");
+        private string fishfilepath = "originalfish\\fish20.png";
+        public static Image originalfish;
         private int _x;                                 // Position en X depuis la gauche de l'espace aérien
         private int _y;                                 // Position en Y depuis le haut de l'espace aérien
         private string _name;
         private int _speed;
         private bool _IsPng = false;
         private int _id;
-        private Image BadFiashImage;
+        //public PictureBox badfishpicture;
 
         public Image BadFishImage { get; private set; }
 
         // Constructeur
         public BadFish(string name, int i)
         {
+            for (int j = 1; j < 21; j++)
+            {
+                if (GlobalHelpers.alea.Next(1,3) == 2)
+                {
+                    fishfilepath = $"originalfish\\fish{j}.png";
+                    break;
+                }
+            }
+            originalfish = Image.FromFile(fishfilepath);
+
 
             _x = GlobalHelpers.alea.Next(0, 1200);
             _y = GlobalHelpers.alea.Next(0, 600);
@@ -38,10 +49,14 @@ namespace FishInvader
             //BadFishImage = Image.FromFile("fishpng\\fish" + i + ".png");
             //pour ne pas lock l'image
 
-            using (var bmpTemp = new Bitmap("fishpng\\fish" + i + ".png"))
+            using (var bmpTemp = new Bitmap(@"fishpng\fish" + i + ".png"))
             {
                 BadFishImage = new Bitmap(bmpTemp);
             }
+
+            //simuler l´hitbox 
+            //badfishpicture = new PictureBox();
+            //badfishpicture.Image = originalfish;
 
 
 
@@ -77,10 +92,21 @@ namespace FishInvader
                 _name = metode.RandomName();
 
 
-                //changer l'image du poisson
 
+                //changer la taile du poison
+                for (int j = 1; j < 21; j++)
+                {
+                    if (GlobalHelpers.alea.Next(1, 3) == 2)
+                    {
+                        originalfish = Image.FromFile("originalfish\\fish" + j + ".png");
+                        break;
+                    }
+
+                }
+
+                //changer l'image du poisson
                 // Load the bitmap
-                var bmp = new Bitmap(@"fish.png");
+                var bmp = new Bitmap(originalfish);
 
                 // Perform color swapping
                 metode.SwapColor(bmp, Color.FromArgb(255, 163, 26), Color.FromArgb(GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256)));
