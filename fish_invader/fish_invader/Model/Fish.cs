@@ -22,16 +22,16 @@
             _name = name;
             _charge = GlobalHelpers.alea.Next(FULLCHARGE); // La charge initiale de la batterie est choisie aléatoirement
 
-<<<<<<< Updated upstream
+
             FishImage = Image.FromFile("fish.png");
-=======
+
             FishImage = Image.FromFile("originalfish\\fish1.png");
 
 
             //hitbox
             //fishpicture = new PictureBox();
             //fishpicture.Image = FishImage;
->>>>>>> Stashed changes
+
         }
         public int X { get { return _x; } }
         public int Y { get { return _y; } }

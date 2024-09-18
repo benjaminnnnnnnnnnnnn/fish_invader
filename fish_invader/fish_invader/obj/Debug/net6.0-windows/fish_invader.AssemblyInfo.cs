@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("fish_invader")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+20702c3fbad559361b5ba7539fe54280f1575eaf")]
 [assembly: System.Reflection.AssemblyProductAttribute("fish_invader")]
 [assembly: System.Reflection.AssemblyTitleAttribute("fish_invader")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
