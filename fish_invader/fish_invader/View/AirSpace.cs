@@ -61,6 +61,13 @@ namespace FishInvader
                 moveRight = true;
             if (e.KeyCode == Keys.Escape)
                 Environment.Exit(0); 
+            if (e.KeyCode == Keys.E)
+            {
+                if (BadFish.PnjTouch == true)
+                {
+                    Console.WriteLine("give quest");
+                }
+            }
 
         }
 
@@ -83,17 +90,17 @@ namespace FishInvader
         {
             foreach (Fish fish in fleet)
             {
-                fish.Update(moveUp, moveDown, moveLeft, moveRight, MOVE_SPEED, badfleet);
-
+                fish.Update(moveUp, moveDown, moveLeft, moveRight, MOVE_SPEED,badfleet);
             }
             
 
             foreach (BadFish badfish in badfleet)
             {
                 badfish.Update();
+
+
             }
             
-
 
         }
 

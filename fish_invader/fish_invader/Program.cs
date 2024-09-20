@@ -21,11 +21,10 @@ namespace FishInvader
 
             List<BadFish> badfleet = new List<BadFish>();
 
-            string fishfilepath = "originalfish\\fish20.png";
-            string Name;
-            for (int i = 0; i < 1; i++)
+            string fishfilepath = "originalfish\\fish20.png";            
+            for (int i = 0; i < 25; i++)
             {
-                Name = metode.RandomName();
+
 
 
 
@@ -33,7 +32,7 @@ namespace FishInvader
                 {
                     if (GlobalHelpers.alea.Next(1, 3) == 2)
                     {
-                        fishfilepath = $"originalfish\\fish1.png";
+                        fishfilepath = $"originalfish\\fish{j}.png";
                         break;
                     }
                 }
@@ -42,10 +41,37 @@ namespace FishInvader
                 // Load the bitmap
                 var bmp = new Bitmap(fishfilepath);
 
-                // Perform color swapping
-                metode.SwapColor(bmp, Color.FromArgb(255, 163, 26), Color.FromArgb(GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256)));
-                metode.SwapColor(bmp, Color.FromArgb(250, 243, 64), Color.FromArgb(GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256)));
-                metode.SwapColor(bmp, Color.FromArgb(255, 85, 5), Color.FromArgb(GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256)));
+
+                int ColorR = GlobalHelpers.alea.Next(0, 256);
+                int ColorG = GlobalHelpers.alea.Next(0, 256);
+                int ColorB = GlobalHelpers.alea.Next(0, 256);
+
+
+                metode.SwapColor(bmp, Color.FromArgb(255, 163, 26), Color.FromArgb(ColorR, ColorG,ColorB));
+                metode.SwapColor(bmp, Color.FromArgb(255, 85, 5), Color.FromArgb(ColorR - (ColorR / 3), ColorG - (ColorG / 3), ColorB - (ColorB / 3)));
+
+                if ((ColorR + (ColorR / 3)) > 255)
+                {
+                    ColorR = 255;
+                }
+                else
+                    ColorR += (ColorR / 3);
+
+                if ((ColorG + (ColorG / 3)) > 255)
+                {
+                    ColorG = 255;
+                }
+                else
+                    ColorG += (ColorG / 3);
+
+                if ((ColorB + (ColorB / 3)) > 255)
+                {
+                    ColorB = 255;
+                }
+                else
+                    ColorB += (ColorB / 3);
+
+                metode.SwapColor(bmp, Color.FromArgb(250, 243, 64), Color.FromArgb(ColorR, ColorG, ColorB));
                 metode.SwapColor(bmp, Color.FromArgb(31, 49, 125), Color.FromArgb(GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256)));
 
                 // Save the modified image
@@ -54,7 +80,7 @@ namespace FishInvader
 
 
 
-                badfleet.Add(new BadFish(Name, i));
+                badfleet.Add(new BadFish(i));
 
             }
 

@@ -12,27 +12,6 @@ namespace FishInvader
         // De manière graphique
         public void Render(BufferedGraphics drawingSpace)
         {
-
-            if (facing_left)
-            {
-                using (Image Flippedfish = Image.FromFile("fish.png"))
-                {
-                    // Flip the image
-                    Flippedfish.RotateFlip(RotateFlipType.RotateNoneFlipX);
-
-                    drawingSpace.Graphics.TranslateTransform(X, Y); // Déplace l'origine du dessin au centre du cowboy
-                    drawingSpace.Graphics.DrawImage(Flippedfish, -Flippedfish.Width / 2, -Flippedfish.Height / 2);
-                    drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
-                }
-
-            }
-            else
-            {
-                drawingSpace.Graphics.TranslateTransform(X, Y); // Déplace l'origine du dessin au centre du cowboy
-                drawingSpace.Graphics.DrawImage(FishImage, -FishImage.Width / 2, -FishImage.Height / 2);
-                drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
-            }
-
             if (facing_left)
             {
                 using (Image Flippedfish = Image.FromFile("originalfish\\fish1.png"))
@@ -40,10 +19,9 @@ namespace FishInvader
                     // Flip the image
                     Flippedfish.RotateFlip(RotateFlipType.RotateNoneFlipX);
 
-
                     
 
-                    drawingSpace.Graphics.TranslateTransform(X, Y); // Déplace l'origine du dessin au centre du cowboy
+                    drawingSpace.Graphics.TranslateTransform(X, Y); // Déplace l'origine du dessin au centre du poisson
                     drawingSpace.Graphics.DrawImage(Flippedfish, -Flippedfish.Width / 2, -Flippedfish.Height / 2);
                     drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
                 }
@@ -51,7 +29,7 @@ namespace FishInvader
             }
             else
             {
-                drawingSpace.Graphics.TranslateTransform(X, Y); // Déplace l'origine du dessin au centre du cowboy
+                drawingSpace.Graphics.TranslateTransform(X, Y); // Déplace l'origine du dessin au centre du poisson
                 drawingSpace.Graphics.DrawImage(FishImage, -FishImage.Width / 2, -FishImage.Height / 2);
                 drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
             }
@@ -60,8 +38,6 @@ namespace FishInvader
 
 
         }
-
-
 
     }
 }

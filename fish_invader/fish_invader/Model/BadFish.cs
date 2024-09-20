@@ -1,15 +1,4 @@
-﻿using FishInvader.Helpers;
-using FishInvader;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Security.Cryptography;
-using System.Windows.Forms;
-using Efundies;
-
-namespace FishInvader
+﻿namespace FishInvader
 {
     public partial class BadFish
     {
@@ -19,16 +8,18 @@ namespace FishInvader
         private int _y;                                 // Position en Y depuis le haut de l'espace aérien
         private string _name;
         private int _speed;
-        private bool _IsPng = false;
+        private bool _IsPnj = false;
         private int _id;
-        private int _badfishhight;
-        private int _badfishwidth;
-
+        private int _width;
+        private int _height;
+        public  static bool PnjTouch = false;
+        public static Image PressE = Image.FromFile("PressE.png");
+        //public PictureBox badfishpicture;
 
         public Image BadFishImage { get; private set; }
 
         // Constructeur
-        public BadFish(string name, int i)
+        public BadFish( int i)
         {
             for (int j = 1; j < 21; j++)
             {
@@ -41,24 +32,42 @@ namespace FishInvader
             originalfish = Image.FromFile(fishfilepath);
 
 
+
+            //set pos to ramdom location
             _x = GlobalHelpers.alea.Next(0, 1200);
             _y = GlobalHelpers.alea.Next(0, 600);
-            _name = name;
-            _speed = GlobalHelpers.alea.Next(1, 6);
-            if ((GlobalHelpers.alea.Next(0, 101)) == 100)
-                _IsPng = true;
+            
 
-            //BadFishImage = Image.FromFile("fishpng\\fish" + i + ".png");
+
+
+
+
+            //if badfish is a png
+            if ((GlobalHelpers.alea.Next(0, 25)) == 1)
+            {
+                _IsPnj = true;
+                _name = metode.RandomName();
+                _speed = GlobalHelpers.alea.Next(1, 3);
+            }
+            else
+            {
+                _speed = GlobalHelpers.alea.Next(1, 6);
+                _name = "";
+            }
+
+
+
+
             //pour ne pas lock l'image
-
             using (var bmpTemp = new Bitmap(@"fishpng\fish" + i + ".png"))
             {
                 BadFishImage = new Bitmap(bmpTemp);
             }
 
 
-            _badfishhight = (BadFishImage.Height / 2);
-            _badfishwidth = (BadFishImage.Width / 2);
+            //set image hight and width (for hitbox)
+            _height = (BadFishImage.Height / 2);
+            _width = (BadFishImage.Width / 2);
 
 
 
@@ -67,19 +76,18 @@ namespace FishInvader
         public int X { get { return _x; } }
         public int Y { get { return _y; } }
         public string Name { get { return _name; } }
-        public bool IsPng { get { return _IsPng; } }
+        public bool IsPnj { get { return _IsPnj; } }
 
-        public int BadFishwidth { get { return _badfishwidth; } }
-        public int BadFishhight { get { return _badfishhight; } }
+        public int Height { get { return _height; } }
+        public int Width { get { return _width; } }
 
-        public int Speed { get { return _speed; } }
 
 
         // Cette méthode calcule le nouvel état dans lequel le drone se trouve après
         // que 'interval' millisecondes se sont écoulées
         public void Update()
         {
-            _x += 0;
+            _x += _speed;
 
 
 
@@ -88,13 +96,18 @@ namespace FishInvader
 
                 _x = 0;
                 _y = GlobalHelpers.alea.Next(0, 600);
-                _speed = GlobalHelpers.alea.Next(1, 6);
-                if ((GlobalHelpers.alea.Next(0, 101)) == 100)
-                    _IsPng = true;
+                if ((GlobalHelpers.alea.Next(0, 25)) == 1)
+                {
+                    _IsPnj = true;
+                    _name = metode.RandomName();
+                    _speed = GlobalHelpers.alea.Next(1, 3);
+                }
                 else
-                    _IsPng = false;
+                {
+                    _name = "";
+                    _speed = GlobalHelpers.alea.Next(1, 6);
+                }
 
-                _name = metode.RandomName();
 
 
 
@@ -109,20 +122,44 @@ namespace FishInvader
 
                 }
 
-                _badfishhight = (originalfish.Height / 2);
-                _badfishwidth = (originalfish.Width / 2);
-
-
-
+                _height = (originalfish.Height / 2);
+                _width = (originalfish.Width / 2);
 
                 //changer l'image du poisson
                 // Load the bitmap
                 var bmp = new Bitmap(originalfish);
 
                 // Perform color swapping
-                metode.SwapColor(bmp, Color.FromArgb(255, 163, 26), Color.FromArgb(GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256)));
-                metode.SwapColor(bmp, Color.FromArgb(250, 243, 64), Color.FromArgb(GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256)));
-                metode.SwapColor(bmp, Color.FromArgb(255, 85, 5), Color.FromArgb(GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256)));
+                int ColorR = GlobalHelpers.alea.Next(0, 256);
+                int ColorG = GlobalHelpers.alea.Next(0, 256);
+                int ColorB = GlobalHelpers.alea.Next(0, 256);
+
+
+                metode.SwapColor(bmp, Color.FromArgb(255, 163, 26), Color.FromArgb(ColorR, ColorG, ColorB));
+                metode.SwapColor(bmp, Color.FromArgb(255, 85, 5), Color.FromArgb(ColorR - (ColorR / 3), ColorG - (ColorG / 3), ColorB - (ColorB / 3)));
+
+                if ((ColorR + (ColorR / 3)) > 255)
+                {
+                    ColorR = 255;
+                }
+                else
+                    ColorR += (ColorR / 3);
+
+                if ((ColorG + (ColorG / 3)) > 255)
+                {
+                    ColorG = 255;
+                }
+                else
+                    ColorG += (ColorG / 3);
+
+                if ((ColorB + (ColorB / 3)) > 255)
+                {
+                    ColorB = 255;
+                }
+                else
+                    ColorB += (ColorB / 3);
+
+                metode.SwapColor(bmp, Color.FromArgb(250, 243, 64), Color.FromArgb(ColorR, ColorG, ColorB));
                 metode.SwapColor(bmp, Color.FromArgb(31, 49, 125), Color.FromArgb(GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256)));
 
                 // Save the modified image
