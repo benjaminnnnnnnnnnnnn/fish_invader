@@ -21,7 +21,9 @@ namespace FishInvader
         private int _speed;
         private bool _IsPng = false;
         private int _id;
-        //public PictureBox badfishpicture;
+        private int _badfishhight;
+        private int _badfishwidth;
+
 
         public Image BadFishImage { get; private set; }
 
@@ -54,10 +56,9 @@ namespace FishInvader
                 BadFishImage = new Bitmap(bmpTemp);
             }
 
-            //simuler l´hitbox 
-            //badfishpicture = new PictureBox();
-            //badfishpicture.Image = originalfish;
 
+            _badfishhight = (BadFishImage.Height / 2);
+            _badfishwidth = (BadFishImage.Width / 2);
 
 
 
@@ -68,13 +69,17 @@ namespace FishInvader
         public string Name { get { return _name; } }
         public bool IsPng { get { return _IsPng; } }
 
+        public int BadFishwidth { get { return _badfishwidth; } }
+        public int BadFishhight { get { return _badfishhight; } }
+
+        public int Speed { get { return _speed; } }
 
 
         // Cette méthode calcule le nouvel état dans lequel le drone se trouve après
         // que 'interval' millisecondes se sont écoulées
         public void Update()
         {
-            _x += _speed;
+            _x += 0;
 
 
 
@@ -103,6 +108,12 @@ namespace FishInvader
                     }
 
                 }
+
+                _badfishhight = (originalfish.Height / 2);
+                _badfishwidth = (originalfish.Width / 2);
+
+
+
 
                 //changer l'image du poisson
                 // Load the bitmap

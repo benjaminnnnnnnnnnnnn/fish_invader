@@ -23,7 +23,7 @@ namespace FishInvader
 
             string fishfilepath = "originalfish\\fish20.png";
             string Name;
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 1; i++)
             {
                 Name = metode.RandomName();
 
@@ -33,7 +33,7 @@ namespace FishInvader
                 {
                     if (GlobalHelpers.alea.Next(1, 3) == 2)
                     {
-                        fishfilepath = $"originalfish\\fish{j}.png";
+                        fishfilepath = $"originalfish\\fish1.png";
                         break;
                     }
                 }
