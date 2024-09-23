@@ -1,3 +1,4 @@
+using fish_invader;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -12,13 +13,26 @@ namespace FishInvader
 
     public partial class AirSpace : Form
     {
-        public static readonly int WIDTH = 1200;        // Dimensions de l'espace aérien
-        public static readonly int HEIGHT = 600;
+        public static int WIDTH = 1200;        // Dimensions de l'espace aérien
+        public static int HEIGHT = 600;
 
-        private List<Fish> fleet;                     // La flotte des drones
+        private List<Quest> quests = new List<Quest>();
+        private List<Event> events = new List<Event>();
+        private List<Fish> fleet;                     // La flotte des poissons
         private List<BadFish> badfleet;               //flotte de machant poison
         private BufferedGraphicsContext currentContext;
         private BufferedGraphics airspace;
+
+
+
+        public static bool SharkEvent = false;
+
+
+        public static bool DoingQuest = false;
+        public static bool TalkingToPng = false;
+        public static int QuestType;
+        public static int dialogNum = 0;
+
 
         // Variables pour les mouvements
         private bool moveUp, moveDown, moveLeft, moveRight;
@@ -31,6 +45,8 @@ namespace FishInvader
 
             this.fleet = fleet;
             this.badfleet = badfleet;
+            events.Add(new Event());
+            quests.Add(new Quest());
 
             // Gets a reference to the current BufferedGraphicsContext
             currentContext = BufferedGraphicsManager.Current;
@@ -60,14 +76,51 @@ namespace FishInvader
             if (e.KeyCode == Keys.D)
                 moveRight = true;
             if (e.KeyCode == Keys.Escape)
-                Environment.Exit(0); 
+                Environment.Exit(0);
             if (e.KeyCode == Keys.E)
             {
-                if (BadFish.PnjTouch == true)
+
+                if (dialogNum == 1)
+                {
+                }
+                else if (TalkingToPng && dialogNum < 3)
+                    dialogNum++;
+
+                if (BadFish.PnjTouch && dialogNum == 0)
                 {
                     Console.WriteLine("give quest");
+                    Fish.pressingE = true;
+                    DoingQuest = true;
+                    TalkingToPng = true;
+
+                    QuestType = GlobalHelpers.alea.Next(0, 3);
                 }
+
+
+
+
+
+
+                if (dialogNum == 3 || dialogNum == 2)
+                {
+                    TalkingToPng = false;
+                    DoingQuest = false;
+                    dialogNum = 0;
+                }
+
+
             }
+            if (e.KeyCode == Keys.N)
+            {
+                if (dialogNum == 1 && TalkingToPng)
+                    dialogNum = 2;
+            }
+            if (e.KeyCode == Keys.Y)
+            {
+                if (dialogNum == 1 && TalkingToPng)
+                    dialogNum = 3;
+            }
+
 
         }
 
@@ -82,17 +135,23 @@ namespace FishInvader
                 moveLeft = false;
             if (e.KeyCode == Keys.D)
                 moveRight = false;
+            if (e.KeyCode == Keys.E)
+                Fish.pressingE = false;
         }
 
         // Calcul du nouvel état après que 'interval' millisecondes se sont écoulées
-
+        bool ramdomEvent = false;
+        public static int EventTime = 0;
         private void Update(int interval)
         {
             foreach (Fish fish in fleet)
             {
-                fish.Update(moveUp, moveDown, moveLeft, moveRight, MOVE_SPEED,badfleet);
+                fish.Update(moveUp, moveDown, moveLeft, moveRight, MOVE_SPEED, badfleet, events);
+
+                if (fish.helth <= 0)
+                    Environment.Exit(0);
             }
-            
+
 
             foreach (BadFish badfish in badfleet)
             {
@@ -100,8 +159,41 @@ namespace FishInvader
 
 
             }
-            
 
+
+            //ramdon event
+            if (GlobalHelpers.alea.Next(0, 3000) == 0 && !ramdomEvent && !TalkingToPng)
+            {
+                Console.Write("\nEvent : ");
+                ramdomEvent = true;
+                int ö = GlobalHelpers.alea.Next(0, 1);
+
+                //shark event
+                if (ö == 0)
+                {
+                    SharkEvent = true;
+                    Console.Write("Shark\n");
+
+                }
+            }
+
+            //event update
+            if (ramdomEvent && !TalkingToPng)
+            {
+                EventTime++;
+
+                if (EventTime >= 1700)
+                {
+                    ramdomEvent = false;
+                    SharkEvent = false;
+                    EventTime = 0;
+                    foreach (Event e in events)
+                    {
+                        e.x = -200;
+
+                    }
+                }
+            }
         }
 
         // Affichage de la situation actuelle
@@ -109,7 +201,7 @@ namespace FishInvader
         {
             airspace.Graphics.Clear(Color.Aqua);
 
-            // Dessin des drones
+            // Dessin des du poisson
             foreach (Fish fish in fleet)
             {
                 fish.Render(airspace);
@@ -119,8 +211,33 @@ namespace FishInvader
             {
                 badfish.Render(airspace);
 
-                
+
             }
+
+            if (ramdomEvent)
+            {
+
+                if (SharkEvent && EventTime >= 1200)
+                {
+                    foreach (Event events in events)
+                    {
+
+                        events.Render(airspace);
+                    }
+                }
+
+
+            }
+
+            if (DoingQuest)
+            {
+                foreach (Quest quest in quests)
+                {
+                    quest.Render(airspace, fleet, badfleet);
+                }
+            }
+
+
 
             airspace.Render();
         }

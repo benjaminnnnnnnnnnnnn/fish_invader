@@ -23,20 +23,32 @@ namespace FishInvader
             drawingSpace.Graphics.DrawImage(BadFishImage, -BadFishImage.Width / 2, -BadFishImage.Height / 2);
             drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
 
-            if (IsPnj == true)
-                drawingSpace.Graphics.DrawString($"{this}", TextHelpers.drawFont, TextHelpers.writingBrushPNJ, ((X - 11) - (Name.Length / 2)), Y - 25);
-            else
-                drawingSpace.Graphics.DrawString($"{this}",TextHelpers.drawFont, TextHelpers.writingBrush, ((X - 11) - (Name.Length / 2)), Y - 25);
 
+
+            if (IsPnj == true)
+                drawingSpace.Graphics.DrawString($"{this}", TextHelpers.drawFont, TextHelpers.writingBrushPNJ, (X - (Name.Length * 3)), (Y  - Height - 15));
+
+            
             if (PnjTouch == true)
             {
-                drawingSpace.Graphics.TranslateTransform(1160, 565); // Déplace l'origine du dessin au centre du fish
-                drawingSpace.Graphics.DrawImage(PressE, -PressE.Width / 2, -PressE.Height / 2);
+                drawingSpace.Graphics.TranslateTransform(1160, 565);
+                if (Fish.pressingE == true)
+                {
+                    drawingSpace.Graphics.DrawImage(PressEdown, -PressEdown.Width / 2, -PressEdown.Height / 2);
+                }
+                else
+                {
+                    drawingSpace.Graphics.DrawImage(PressE, -PressE.Width / 2, -PressE.Height / 2);
+                }
                 drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
 
             }
 
+
+
+
         }
+
 
         // De manière textuelle
         public override string ToString()

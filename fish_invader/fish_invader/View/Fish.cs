@@ -14,7 +14,7 @@ namespace FishInvader
         {
             if (facing_left)
             {
-                using (Image Flippedfish = Image.FromFile("originalfish\\fish1.png"))
+                using (Image Flippedfish = Image.FromFile("originalfish\\f2sh1.png"))
                 {
                     // Flip the image
                     Flippedfish.RotateFlip(RotateFlipType.RotateNoneFlipX);
@@ -24,6 +24,7 @@ namespace FishInvader
                     drawingSpace.Graphics.TranslateTransform(X, Y); // Déplace l'origine du dessin au centre du poisson
                     drawingSpace.Graphics.DrawImage(Flippedfish, -Flippedfish.Width / 2, -Flippedfish.Height / 2);
                     drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
+                    
                 }
 
             }
@@ -34,10 +35,14 @@ namespace FishInvader
                 drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
             }
 
-
+            drawingSpace.Graphics.DrawString($"{this}", TextHelpers.drawFont, TextHelpers.writingBrushPNJ, X - 20, (Y - Height - 15));
 
 
         }
-
+        // De manière textuelle
+        public override string ToString()
+        {
+            return $"{helth}";
+        }
     }
 }
