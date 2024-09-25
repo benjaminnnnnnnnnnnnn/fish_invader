@@ -85,4 +85,7 @@ E:\PROJETS\fish_invader-main\fish_invader-main\fish_invader\fish_invader\obj\Deb
 E:\PROJETS\fish_invader-main\fish_invader-main\fish_invader\fish_invader\obj\Debug\net6.0-windows\fish_invader.pdb
 E:\PROJETS\fish_invader-main\fish_invader-main\fish_invader\fish_invader\obj\Debug\net6.0-windows\fish_invader.genruntimeconfig.cache
 E:\PROJETS\fish_invader-main\fish_invader-main\fish_invader\fish_invader\obj\Debug\net6.0-windows\ref\fish_invader.dll
+D:\PROJETS\fish_invader-main\fish_invader-main\fish_invader\fish_invader\obj\Debug\net6.0-windows\fish_invader.Properties.Resources.resources
+G:\PROJETS\fish_invader-main\fish_invader-main\fish_invader\fish_invader\obj\Debug\net6.0-windows\fish_invader.Properties.Resources.resources
+E:\PROJETS\fish_invader-main\fish_invader-main\fish_invader\fish_invader\obj\Debug\net6.0-windows\fish_invader.Properties.Resources.resources
 D:\PROJETS\fish_invader-main\fish_invader-main\fish_invader\fish_invader\obj\Debug\net6.0-windows\fish_inv.1DD307FF.Up2Date

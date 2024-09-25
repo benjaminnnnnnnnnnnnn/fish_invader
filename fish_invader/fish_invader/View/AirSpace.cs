@@ -18,6 +18,9 @@ namespace FishInvader
 
         private List<Quest> quests = new List<Quest>();
         private List<Event> events = new List<Event>();
+
+        private List<Wepon> wepons;
+        private List<Jellyfish> jellyfleet;
         private List<Fish> fleet;                     // La flotte des poissons
         private List<BadFish> badfleet;               //flotte de machant poison
         private BufferedGraphicsContext currentContext;
@@ -39,12 +42,15 @@ namespace FishInvader
         private const int MOVE_SPEED = 3; // Vitesse de déplacement du drone
 
         // Initialisation de l'espace aérien avec un certain nombre de drones
-        public AirSpace(List<Fish> fleet, List<BadFish> badfleet) : base()
+        public AirSpace(List<Fish> fleet, List<BadFish> badfleet, List<Jellyfish> jellyfleet, List<Wepon> wepons) : base()
         {
             InitializeComponent();
 
             this.fleet = fleet;
             this.badfleet = badfleet;
+            this.jellyfleet = jellyfleet;
+            this.wepons = wepons;
+
             events.Add(new Event());
             quests.Add(new Quest());
 
@@ -61,6 +67,8 @@ namespace FishInvader
 
             // Rendre le formulaire focusable pour les événements clavier
             this.KeyPreview = true;
+
+            
         }
 
 
@@ -86,7 +94,7 @@ namespace FishInvader
                 else if (TalkingToPng && dialogNum < 3)
                     dialogNum++;
 
-                if (BadFish.PnjTouch && dialogNum == 0)
+                if (BadFish.PnjTouch && dialogNum == 0 || Jellyfish.PnjTouch && dialogNum == 0)
                 {
                     Console.WriteLine("give quest");
                     Fish.pressingE = true;
@@ -120,6 +128,46 @@ namespace FishInvader
                 if (dialogNum == 1 && TalkingToPng)
                     dialogNum = 3;
             }
+            if (e.KeyCode == Keys.Space)
+            {
+                Wepon.hiting = true;
+
+                foreach (Wepon wepon in wepons)
+                {
+
+                    foreach (BadFish badfish in badfleet)
+                    {
+
+                        if (!badfish.IsPnj)
+                        {
+                            if ((badfish.X - badfish.Width) <= (wepon.X + wepon.Width) && (badfish.Y - badfish.Height) <= (wepon.Y + wepon.Height) && (badfish.X + badfish.Width) >= (wepon.X - wepon.Width) && (badfish.Y + badfish.Height) >= (wepon.Y - wepon.Height))
+                            {
+                                Console.WriteLine("-1 badfish hp");
+                                badfish.helth -= wepon.Damage;
+                            }
+
+
+                        }
+
+                    }
+                    //if touch badfish
+                    foreach (Jellyfish jellyfish in jellyfleet)
+                    {
+
+                        if (!jellyfish.IsPnj)
+                        {
+                            if ((jellyfish.X - jellyfish.Width) <= (wepon.X + wepon.Width) && (jellyfish.Y - jellyfish.Height) <= (wepon.Y + wepon.Height) && (jellyfish.X + jellyfish.Width) >= (wepon.X - wepon.Width) && (jellyfish.Y + jellyfish.Height) >= (wepon.Y - wepon.Height))
+                            {
+                                Console.WriteLine("-1 jellyfish hp");
+                                jellyfish.Helth -= wepon.Damage;
+                            }
+
+
+                        }
+
+                    }
+                }
+            }
 
 
         }
@@ -137,16 +185,26 @@ namespace FishInvader
                 moveRight = false;
             if (e.KeyCode == Keys.E)
                 Fish.pressingE = false;
+            if (e.KeyCode == Keys.Space)
+            {
+                Wepon.hiting = false;
+            }
         }
 
         // Calcul du nouvel état après que 'interval' millisecondes se sont écoulées
         bool ramdomEvent = false;
         public static int EventTime = 0;
+
+        private void AirSpace_Load(object sender, EventArgs e)
+        {
+
+        }
+
         private void Update(int interval)
         {
             foreach (Fish fish in fleet)
             {
-                fish.Update(moveUp, moveDown, moveLeft, moveRight, MOVE_SPEED, badfleet, events);
+                fish.Update(moveUp, moveDown, moveLeft, moveRight, MOVE_SPEED, badfleet, events, jellyfleet);
 
                 if (fish.helth <= 0)
                     Environment.Exit(0);
@@ -157,7 +215,29 @@ namespace FishInvader
             {
                 badfish.Update();
 
+                if (badfish.helth <= 0)
+                {
+                    Console.WriteLine("fish died ! take some gold");
+                    badfleet.Remove(badfish);
+                    break;
+                }
+            }
 
+            foreach (Jellyfish jellyfish in jellyfleet)
+            {
+                jellyfish.Update();
+
+                if (jellyfish.Helth <= 0)
+                {
+                    Console.WriteLine("jellyfish died ! take some gold");
+                    jellyfleet.Remove(jellyfish);
+                    break;
+                }
+            }
+
+            foreach (Wepon wepon in wepons)
+            {
+                wepon.update(fleet);
             }
 
 
@@ -199,7 +279,8 @@ namespace FishInvader
         // Affichage de la situation actuelle
         private void Render()
         {
-            airspace.Graphics.Clear(Color.Aqua);
+            airspace.Graphics.Clear(Color.Turquoise);
+            airspace.Graphics.DrawImage(Image.FromFile("otherimage\\background.png"),0,0);
 
             // Dessin des du poisson
             foreach (Fish fish in fleet)
@@ -212,6 +293,16 @@ namespace FishInvader
                 badfish.Render(airspace);
 
 
+            }
+
+            foreach (Wepon wepon in wepons)
+            {
+                wepon.Render(airspace);
+            }
+
+            foreach (Jellyfish jellyfish in jellyfleet)
+            {
+                jellyfish.Render(airspace);
             }
 
             if (ramdomEvent)
@@ -233,9 +324,10 @@ namespace FishInvader
             {
                 foreach (Quest quest in quests)
                 {
-                    quest.Render(airspace, fleet, badfleet);
+                    quest.Render(airspace, fleet, badfleet, jellyfleet);
                 }
             }
+
 
 
 

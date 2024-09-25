@@ -2,7 +2,7 @@
 {
     public partial class BadFish
     {
-        private int type = GlobalHelpers.alea.Next(1, 15);
+        private int type = GlobalHelpers.alea.Next(1, 20);
         private string fishfilepath;
         public static Image originalfish;
         private int _x;                                 // Position en X depuis la gauche de l'espace aérien
@@ -19,6 +19,7 @@
         private int _colorR = GlobalHelpers.alea.Next(0, 256);
         private int _colorG = GlobalHelpers.alea.Next(0, 256);
         private int _colorB = GlobalHelpers.alea.Next(0, 256);
+        public int helth;
 
         //public PictureBox badfishpicture;
 
@@ -30,13 +31,14 @@
         {
             fishfilepath = $"originalfish\\f{type}sh20.png";
 
-            for (int j = 1; j < 21; j++)
+            for (int j = 5; j < 16; j++)
             {
 
 
                 if (GlobalHelpers.alea.Next(1, 3) == 2)
                 {
                     fishfilepath = $"originalfish\\f{type}sh{j}.png";
+                    helth = j;
                     break;
                 }
             }
@@ -159,10 +161,11 @@
                 {
                     _x += (_speed * 2);
                 }
-
-
-                if (AirSpace.EventTime < 1000 && AirSpace.SharkEvent || !AirSpace.SharkEvent)
+                else
                     _x += _speed;
+
+
+
 
 
 
@@ -192,12 +195,13 @@
 
 
                         //changer la taile du poison
-                        type = GlobalHelpers.alea.Next(1, 15);
-                        for (int j = 1; j < 16; j++)
+                        type = GlobalHelpers.alea.Next(1, 20);
+                        for (int j = 5; j < 16; j++)
                         {
                             if (GlobalHelpers.alea.Next(1, 4) == 2)
                             {
                                 originalfish = Image.FromFile($"originalfish\\f{type}sh" + j + ".png");
+                                helth = j;
                                 break;
                             }
 

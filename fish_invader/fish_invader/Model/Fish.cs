@@ -8,13 +8,14 @@ namespace FishInvader
         private string _name;                           // Un nom
         private int _x;                                 // Position en X depuis la gauche de l'espace aérien
         private int _y;                                 // Position en Y depuis le haut de l'espace aérien
-        public bool facing_left;
+        public static bool facing_left;
         private int _height;
         private int _width;
         public int helth = 100;
         public static bool pressingE = false;
         //public PictureBox fishpicture;
         public static int touchingPngId;
+        public static int touchingjellyPngId;
 
 
         public Image FishImage { get; private set; }
@@ -44,7 +45,7 @@ namespace FishInvader
 
         // Cette méthode calcule le nouvel état dans lequel le drone se trouve après
         // que 'interval' millisecondes se sont écoulées
-        public void Update(bool moveUp, bool moveDown, bool moveLeft, bool moveRight, int speed, List<BadFish> badfleet, List<Event> events)
+        public void Update(bool moveUp, bool moveDown, bool moveLeft, bool moveRight, int speed, List<BadFish> badfleet, List<Event> events, List<Jellyfish> jellyfleet)
         {
             bool moved = false;
 
@@ -106,6 +107,7 @@ namespace FishInvader
 
 
                     }
+
                 }
 
                 //if touch badfish
@@ -123,6 +125,44 @@ namespace FishInvader
                     }
 
                 }
+
+
+                Jellyfish.PnjTouch = false;
+                //if touch png
+                touchingjellyPngId = 0;
+                foreach (Jellyfish jellyfish in jellyfleet)
+                {
+                    touchingjellyPngId++;
+                    if (jellyfish.IsPnj)
+                    {
+                        if ((jellyfish.X - jellyfish.Width) <= (_x + _width) && (jellyfish.Y - jellyfish.Height) <= (_y + _height) && (jellyfish.X + jellyfish.Width) >= (_x - _width) && (jellyfish.Y + jellyfish.Height) >= (_y - _height))
+                        {
+
+                            Jellyfish.PnjTouch = true;
+                            break;
+                        }
+
+
+                    }
+                }
+
+                //if touch badfish
+                foreach (Jellyfish jellyfish in jellyfleet)
+                {
+
+                    if (!jellyfish.IsPnj)
+                    {
+                        if ((jellyfish.X - jellyfish.Width) <= (_x + _width) && (jellyfish.Y - jellyfish.Height) <= (_y + _height) && (jellyfish.X + jellyfish.Width) >= (_x - _width) && (jellyfish.Y + jellyfish.Height) >= (_y - _height))
+                        {
+                            helth--;
+                        }
+
+
+                    }
+
+                }
+
+
 
                 //if touch shark event
                 if (AirSpace.SharkEvent && AirSpace.EventTime >= 1000)

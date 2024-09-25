@@ -19,17 +19,26 @@ namespace FishInvader
             List<Fish> fleet = new List<Fish>();
             fleet.Add(new Fish(AirSpace.WIDTH / 2, AirSpace.HEIGHT / 2, "Fish"));
 
+            List<Wepon> wepons = new List<Wepon>();
+            wepons.Add(new Wepon());
+
 
             List<BadFish> badfleet = new List<BadFish>();           
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < 6; i++)
             {
                 badfleet.Add(new BadFish(i));
+            }
+
+            List<Jellyfish> jellyfleet = new List<Jellyfish>();
+            for (int i = 0; i < 3; i++)
+            {
+                jellyfleet.Add(new Jellyfish(i));
             }
 
 
 
             // Démarrage
-            Application.Run(new AirSpace(fleet, badfleet));
+            Application.Run(new AirSpace(fleet, badfleet, jellyfleet, wepons));
 
 
 

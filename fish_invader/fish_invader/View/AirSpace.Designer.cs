@@ -28,24 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.ticker = new System.Windows.Forms.Timer(this.components);
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            ticker = new System.Windows.Forms.Timer(components);
+            SuspendLayout();
             // 
             // ticker
             // 
-            this.ticker.Enabled = true;
-            this.ticker.Tick += new System.EventHandler(this.NewFrame);
-            this.ticker.Interval = 1;
+            ticker.Enabled = true;
+            ticker.Interval = 1;
+            ticker.Tick += NewFrame;
             // 
             // AirSpace
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(WIDTH, HEIGHT);
-            this.Name = "AirSpace";
-            this.Text = "AirSpace";
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ControlDark;
+            BackgroundImage = fish_invader.Properties.Resources.background;
+            BackgroundImageLayout = ImageLayout.Stretch;
+            ClientSize = new Size(1184, 598);
+            DoubleBuffered = true;
+            Name = "AirSpace";
+            Text = "AirSpace";
+            Load += AirSpace_Load;
+            ResumeLayout(false);
+
+            //Arrière plan
+
+            this.BackgroundImage = Image.FromFile("otherimage/background.png"); // Image d'arrière-plan
+
+            this.BackgroundImageLayout = ImageLayout.Stretch;
 
         }
 
