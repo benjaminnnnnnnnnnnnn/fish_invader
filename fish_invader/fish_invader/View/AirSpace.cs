@@ -199,7 +199,7 @@ namespace FishInvader
         {
 
         }
-
+        int h;
         private void Update(int interval)
         {
             foreach (Fish fish in fleet)
@@ -217,20 +217,24 @@ namespace FishInvader
 
                 if (badfish.helth <= 0)
                 {
+                    h = badfish.Id;
                     Console.WriteLine("fish died ! take some gold");
                     badfleet.Remove(badfish);
+                    badfleet.Add(new BadFish(h));
                     break;
                 }
             }
-
+            
             foreach (Jellyfish jellyfish in jellyfleet)
             {
                 jellyfish.Update();
 
                 if (jellyfish.Helth <= 0)
                 {
-                    Console.WriteLine("jellyfish died ! take some gold");
+                    h = jellyfish.Id;
+                    Console.WriteLine("jelly fish died ! take some gold");
                     jellyfleet.Remove(jellyfish);
+                    jellyfleet.Add(new Jellyfish(h));
                     break;
                 }
             }

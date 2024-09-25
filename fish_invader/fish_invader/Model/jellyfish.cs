@@ -154,6 +154,7 @@
         public int Type { get => type; set => type = value; }
         public int V { get => v; set => v = value; }
         public int Helth { get => _helth; set => _helth = value; }
+        public int Id { get => _id; set => _id = value; }
 
         private int v = 0;
         int s = 0;

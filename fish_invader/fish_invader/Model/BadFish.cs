@@ -147,6 +147,7 @@
         public int ColorG { get => _colorG; set => _colorG = value; }
         public int ColorB { get => _colorB; set => _colorB = value; }
         public int Type { get => type; set => type = value; }
+        public int Id { get => _id; set => _id = value; }
 
 
 
