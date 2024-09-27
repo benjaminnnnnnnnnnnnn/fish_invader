@@ -1,24 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\px25twk\\Documents\\GitHub\\fish_invader\\fish_invader\\fish_invader\\fish_invader.csproj": {}
+    "G:\\PROJETS\\fish_invader-main\\fish_invader-main\\fish_invader\\fish_invader\\fish_invader.csproj": {}
   },
   "projects": {
-    "C:\\Users\\px25twk\\Documents\\GitHub\\fish_invader\\fish_invader\\fish_invader\\fish_invader.csproj": {
+    "G:\\PROJETS\\fish_invader-main\\fish_invader-main\\fish_invader\\fish_invader\\fish_invader.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\px25twk\\Documents\\GitHub\\fish_invader\\fish_invader\\fish_invader\\fish_invader.csproj",
+        "projectUniqueName": "G:\\PROJETS\\fish_invader-main\\fish_invader-main\\fish_invader\\fish_invader\\fish_invader.csproj",
         "projectName": "fish_invader",
-        "projectPath": "C:\\Users\\px25twk\\Documents\\GitHub\\fish_invader\\fish_invader\\fish_invader\\fish_invader.csproj",
-        "packagesPath": "C:\\Users\\px25twk\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\px25twk\\Documents\\GitHub\\fish_invader\\fish_invader\\fish_invader\\obj\\",
+        "projectPath": "G:\\PROJETS\\fish_invader-main\\fish_invader-main\\fish_invader\\fish_invader\\fish_invader.csproj",
+        "packagesPath": "C:\\Users\\Ben\\.nuget\\packages\\",
+        "outputPath": "G:\\PROJETS\\fish_invader-main\\fish_invader-main\\fish_invader\\fish_invader\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\px25twk\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Ben\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -75,7 +74,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }

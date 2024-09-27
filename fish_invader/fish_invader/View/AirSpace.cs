@@ -19,6 +19,8 @@ namespace FishInvader
         private List<Quest> quests = new List<Quest>();
         private List<Event> events = new List<Event>();
 
+        private List<Gold> golds = new List<Gold>();
+        private List<Heart> hearts = new List<Heart>();
         private List<Wepon> wepons;
         private List<Jellyfish> jellyfleet;
         private List<Fish> fleet;                     // La flotte des poissons
@@ -50,6 +52,10 @@ namespace FishInvader
             this.badfleet = badfleet;
             this.jellyfleet = jellyfleet;
             this.wepons = wepons;
+
+            hearts.Add(new Heart());
+            hearts.Add(new Heart());
+            hearts.Add(new Heart());
 
             events.Add(new Event());
             quests.Add(new Quest());
@@ -94,14 +100,14 @@ namespace FishInvader
                 else if (TalkingToPng && dialogNum < 3)
                     dialogNum++;
 
-                if (BadFish.PnjTouch && dialogNum == 0 || Jellyfish.PnjTouch && dialogNum == 0)
+                if (BadFish.PnjTouch && dialogNum == 0 && !DoingQuest || Jellyfish.PnjTouch && dialogNum == 0 && !DoingQuest)
                 {
                     Console.WriteLine("give quest");
                     Fish.pressingE = true;
                     DoingQuest = true;
                     TalkingToPng = true;
 
-                    QuestType = GlobalHelpers.alea.Next(0, 3);
+                    QuestType = GlobalHelpers.alea.Next(0, 4);
                 }
 
 
@@ -199,12 +205,12 @@ namespace FishInvader
         {
 
         }
-        int h;
+
         private void Update(int interval)
         {
             foreach (Fish fish in fleet)
             {
-                fish.Update(moveUp, moveDown, moveLeft, moveRight, MOVE_SPEED, badfleet, events, jellyfleet);
+                fish.Update(moveUp, moveDown, moveLeft, moveRight, MOVE_SPEED, badfleet, events, jellyfleet, hearts, golds);
 
                 if (fish.helth <= 0)
                     Environment.Exit(0);
@@ -217,24 +223,24 @@ namespace FishInvader
 
                 if (badfish.helth <= 0)
                 {
-                    h = badfish.Id;
                     Console.WriteLine("fish died ! take some gold");
                     badfleet.Remove(badfish);
-                    badfleet.Add(new BadFish(h));
+                    golds.Add(new Gold(badfish.X, badfish.Y, badfish.Size));
+                    badfleet.Add(new BadFish(badfish.Id));
                     break;
                 }
             }
-            
+
             foreach (Jellyfish jellyfish in jellyfleet)
             {
                 jellyfish.Update();
 
                 if (jellyfish.Helth <= 0)
                 {
-                    h = jellyfish.Id;
-                    Console.WriteLine("jelly fish died ! take some gold");
+                    Console.WriteLine("jellyfish died ! take some gold");
                     jellyfleet.Remove(jellyfish);
-                    jellyfleet.Add(new Jellyfish(h));
+                    golds.Add(new Gold(jellyfish.X, jellyfish.Y, jellyfish.Size));
+                    jellyfleet.Add(new Jellyfish(jellyfish.Id));
                     break;
                 }
             }
@@ -292,6 +298,23 @@ namespace FishInvader
                 fish.Render(airspace);
             }
 
+            foreach (Wepon wepon in wepons)
+            {
+                wepon.Render(airspace);
+            }
+
+            foreach (Gold gold in golds) 
+            {
+                gold.Render(airspace);
+            }
+
+            foreach (Heart heart in hearts)
+            {
+                heart.Render(airspace);
+            }
+
+
+
             foreach (BadFish badfish in badfleet)
             {
                 badfish.Render(airspace);
@@ -299,10 +322,7 @@ namespace FishInvader
 
             }
 
-            foreach (Wepon wepon in wepons)
-            {
-                wepon.Render(airspace);
-            }
+
 
             foreach (Jellyfish jellyfish in jellyfleet)
             {

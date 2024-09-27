@@ -22,6 +22,8 @@ namespace FishInvader
             List<Wepon> wepons = new List<Wepon>();
             wepons.Add(new Wepon());
 
+            
+
 
             List<BadFish> badfleet = new List<BadFish>();           
             for (int i = 0; i < 6; i++)

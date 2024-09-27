@@ -16,6 +16,7 @@ namespace FishInvader
         //public PictureBox fishpicture;
         public static int touchingPngId;
         public static int touchingjellyPngId;
+        private int _gold = 0;
 
 
         public Image FishImage { get; private set; }
@@ -43,9 +44,11 @@ namespace FishInvader
         public int Height { get { return _height; } }
         public int Width { get { return _width; } }
 
+        public int Gold { get => _gold; set => _gold = value; }
+
         // Cette méthode calcule le nouvel état dans lequel le drone se trouve après
         // que 'interval' millisecondes se sont écoulées
-        public void Update(bool moveUp, bool moveDown, bool moveLeft, bool moveRight, int speed, List<BadFish> badfleet, List<Event> events, List<Jellyfish> jellyfleet)
+        public void Update(bool moveUp, bool moveDown, bool moveLeft, bool moveRight, int speed, List<BadFish> badfleet, List<Event> events, List<Jellyfish> jellyfleet, List<Heart> hearts, List<Gold> golds)
         {
             bool moved = false;
 
@@ -100,7 +103,7 @@ namespace FishInvader
                     {
                         if ((badfish.X - badfish.Width) <= (_x + _width) && (badfish.Y - badfish.Height) <= (_y + _height) && (badfish.X + badfish.Width) >= (_x - _width) && (badfish.Y + badfish.Height) >= (_y - _height))
                         {
-                            
+
                             BadFish.PnjTouch = true;
                             break;
                         }
@@ -162,6 +165,35 @@ namespace FishInvader
 
                 }
 
+                foreach (Heart heart in hearts)
+                {
+
+                    if ((heart.X - heart.Width) <= (_x + _width) && (heart.Y - heart.Height) <= (_y + _height) && (heart.X + heart.Width) >= (_x - _width) && (heart.Y + heart.Height) >= (_y - _height))
+                    {
+                        if (helth >= 95)
+                            helth = 100;
+                        else
+                            helth += heart.Amount;
+                        hearts.Remove(heart);
+                        hearts.Add(new Heart());
+                        break;
+                    }
+
+                }
+
+                foreach (Gold gold in golds)
+                {
+
+                    if ((gold.X - gold.Width) <= (_x + _width) && (gold.Y - gold.Height) <= (_y + _height) && (gold.X + gold.Width) >= (_x - _width) && (gold.Y + gold.Height) >= (_y - _height))
+                    {
+
+                        _gold += gold.Amount;
+                        Console.WriteLine(_gold);
+                        golds .Remove(gold);
+                        break;
+                    }
+
+                }
 
 
                 //if touch shark event

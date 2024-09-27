@@ -2,7 +2,6 @@
 {
     public partial class Jellyfish
     {
-        private int type = 1;
         private string Jellyfishfilepath;
         private string Jellyfishfilepath2;
         public static Image originaljellyfish;
@@ -23,6 +22,7 @@
         private double _colorB = GlobalHelpers.alea.Next(0, 256);
         private int _stage = 0;
         private int _helth;
+        private int _size;
 
         //public PictureBox badfishpicture;
 
@@ -33,18 +33,18 @@
         // Constructeur
         public Jellyfish(int i)
         {
-            Jellyfishfilepath = $"originalfish\\jellyf{type}sh20.png";
+            Jellyfishfilepath = $"originalfish\\jellyf1sh20.png";
             Jellyfishfilepath2 = $"originalfish\\jellyf2sh20.png";
 
-            for (int j = 1; j < 5; j++)
+            for (_size = 1; _size < 5; _size++)
             {
 
 
                 if (GlobalHelpers.alea.Next(1, 3) == 2)
                 {
-                    Jellyfishfilepath = $"originalfish\\jellyf{type}sh{j}.png";
-                    Jellyfishfilepath2 = $"originalfish\\jellyf2sh{j}.png";
-                    _helth = j;
+                    Jellyfishfilepath = $"originalfish\\jellyf1sh{_size}.png";
+                    Jellyfishfilepath2 = $"originalfish\\jellyf2sh{_size}.png";
+                    _helth = _size;
                     break;
                 }
             }
@@ -151,10 +151,10 @@
         public double ColorR { get => _colorR; set => _colorR = value; }
         public double ColorG { get => _colorG; set => _colorG = value; }
         public double ColorB { get => _colorB; set => _colorB = value; }
-        public int Type { get => type; set => type = value; }
         public int V { get => v; set => v = value; }
         public int Helth { get => _helth; set => _helth = value; }
         public int Id { get => _id; set => _id = value; }
+        public int Size { get => _size; set => _size = value; }
 
         private int v = 0;
         int s = 0;
@@ -225,6 +225,7 @@
                         }
                         else
                         {
+                            _IsPnj = false;
                             _name = "";
                             _speed = GlobalHelpers.alea.Next(10, 14);
                         }
@@ -233,13 +234,13 @@
                         _stage = 0 - _speed;
 
                         //changer la taile du jellyfish
-                        for (int j = 5; j < 16; j++)
+                        for (_size = 5; _size < 16; _size++)
                         {
                             if (GlobalHelpers.alea.Next(1, 4) == 2)
                             {
-                                originaljellyfish = Image.FromFile($"originalfish\\jellyf{type}sh" + j + ".png");
-                                originaljellyfish2 = Image.FromFile($"originalfish\\jellyf2sh" + j + ".png");
-                                _helth = j;
+                                originaljellyfish = Image.FromFile($"originalfish\\jellyf1sh" + _size + ".png");
+                                originaljellyfish2 = Image.FromFile($"originalfish\\jellyf2sh" + _size + ".png");
+                                _helth = _size;
                                 break;
                             }
 

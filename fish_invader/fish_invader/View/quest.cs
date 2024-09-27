@@ -21,10 +21,10 @@ namespace fish_invader
         private Pen droneBrushgreen = new Pen(new SolidBrush(Color.Green), 40);
         private string[,] strings = new string[,]
         {
-            {"Hello", "Can you... ...for 600 gold", ":(","thank you :>"},
-            {"hi", "Can you...   ...for 3 gold","...", "thanks"},
-            {"yo", "I'm in a bit of a hurry...   ...of 10 gold", "too bad", "chers mate"},
-            {"", "", "(*sad*)", ""},
+            {"Hello", "Can you kill a shark for 100 gold ?", ":(","thank you :>"},
+            {"hi", "Can you kill 10 fish's for 56 gold...","...", "thanks"},
+            {"yo", "I'm at bit hungry can you kill a crab of me (12 Gold)", "too bad", "chers mate"},
+            {"hi", "is it possible that you can kill a big fish or jellyfish ? (39 Gold)", "(*sad*)", "UwU"},
             {"", "", "", ""},
             {"", "", "", ""},
 

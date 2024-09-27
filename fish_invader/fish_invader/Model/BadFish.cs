@@ -20,7 +20,7 @@
         private int _colorG = GlobalHelpers.alea.Next(0, 256);
         private int _colorB = GlobalHelpers.alea.Next(0, 256);
         public int helth;
-
+        private int _size;
         //public PictureBox badfishpicture;
 
         public Image BadFishImage { get; private set; }
@@ -31,14 +31,14 @@
         {
             fishfilepath = $"originalfish\\f{type}sh20.png";
 
-            for (int j = 5; j < 16; j++)
+            for (_size = 5; _size < 16; _size++)
             {
 
 
                 if (GlobalHelpers.alea.Next(1, 3) == 2)
                 {
-                    fishfilepath = $"originalfish\\f{type}sh{j}.png";
-                    helth = j;
+                    fishfilepath = $"originalfish\\f{type}sh{_size}.png";
+                    helth = _size;
                     break;
                 }
             }
@@ -148,6 +148,7 @@
         public int ColorB { get => _colorB; set => _colorB = value; }
         public int Type { get => type; set => type = value; }
         public int Id { get => _id; set => _id = value; }
+        public int Size { get => _size; set => _size = value; }
 
 
 
@@ -188,6 +189,7 @@
                         }
                         else
                         {
+                            _IsPnj = false;
                             _name = "";
                             _speed = GlobalHelpers.alea.Next(1, 6);
                         }
@@ -197,12 +199,12 @@
 
                         //changer la taile du poison
                         type = GlobalHelpers.alea.Next(1, 20);
-                        for (int j = 5; j < 16; j++)
+                        for (_size = 5; _size < 16; _size++)
                         {
                             if (GlobalHelpers.alea.Next(1, 4) == 2)
                             {
-                                originalfish = Image.FromFile($"originalfish\\f{type}sh" + j + ".png");
-                                helth = j;
+                                originalfish = Image.FromFile($"originalfish\\f{type}sh" + _size + ".png");
+                                helth = _size;
                                 break;
                             }
 
