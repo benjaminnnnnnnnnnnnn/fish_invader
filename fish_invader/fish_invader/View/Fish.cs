@@ -43,8 +43,6 @@ namespace FishInvader
 
 
 
-
-
         }
         // De manière textuelle
         public override string ToString()

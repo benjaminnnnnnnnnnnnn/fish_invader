@@ -19,65 +19,92 @@ namespace FishInvader
             if (Fish.facing_left)
             {
 
-
-                if (hiting)
+                if (wepontype == 0)
                 {
-                    using (Image Flippedfish = Image.FromFile("otherimage\\sward.png"))
+                    if (hiting)
                     {
-                        // Flip the image
-                        Flippedfish.RotateFlip(RotateFlipType.Rotate180FlipX);
+                        using (Image Flippedfish = Image.FromFile("otherimage\\sward.png"))
+                        {
+                            // Flip the image
+                            Flippedfish.RotateFlip(RotateFlipType.Rotate180FlipX);
 
 
 
-                        drawingSpace.Graphics.TranslateTransform((_x - 20), (_y + 10)); // Déplace l'origine du dessin au centre du fish
-                        drawingSpace.Graphics.DrawImage(Flippedfish, -Flippedfish.Width / 2, -Flippedfish.Height / 2);
+                            drawingSpace.Graphics.TranslateTransform(_x, _y); // Déplace l'origine du dessin au centre du fish
+                            drawingSpace.Graphics.DrawImage(Flippedfish, -Flippedfish.Width / 2, -Flippedfish.Height / 2);
+                            drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
+
+                        }
+                    }
+                    else
+                    {
+                        drawingSpace.Graphics.TranslateTransform(_x, _y); // Déplace l'origine du dessin au centre du fish
+                        drawingSpace.Graphics.DrawImage(WeponImage, -WeponImage.Width / 2, -WeponImage.Height / 2);
                         drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
-
                     }
                 }
-                else
+                else if (wepontype == 1)
                 {
-                    drawingSpace.Graphics.TranslateTransform((_x - 20), _y); // Déplace l'origine du dessin au centre du fish
-                    drawingSpace.Graphics.DrawImage(WeponImage, -WeponImage.Width / 2, -WeponImage.Height / 2);
+                    drawingSpace.Graphics.TranslateTransform(_x, _y); // Déplace l'origine du dessin au centre du fish
+                    drawingSpace.Graphics.DrawImage(WeponImageGun, -WeponImageGun.Width / 2, -WeponImageGun.Height / 2);
                     drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
                 }
+
             }
             else
             {
-
-                if (hiting)
+                if (wepontype == 0)
                 {
-                    using (Image Flippedfish = Image.FromFile("otherimage\\sward.png"))
+                    if (hiting)
                     {
-                        // Flip the image
-                        Flippedfish.RotateFlip(RotateFlipType.Rotate90FlipY);
+                        using (Image Flippedfish = Image.FromFile("otherimage\\sward.png"))
+                        {
+                            // Flip the image
+                            Flippedfish.RotateFlip(RotateFlipType.Rotate90FlipY);
 
 
 
-                        drawingSpace.Graphics.TranslateTransform((_x + 20), (_y + 10)); // Déplace l'origine du dessin au centre du fish
-                        drawingSpace.Graphics.DrawImage(Flippedfish, -Flippedfish.Width / 2, -Flippedfish.Height / 2);
-                        drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
+                            drawingSpace.Graphics.TranslateTransform(_x, _y); // Déplace l'origine du dessin au centre du fish
+                            drawingSpace.Graphics.DrawImage(Flippedfish, -Flippedfish.Width / 2, -Flippedfish.Height / 2);
+                            drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
 
+                        }
                     }
+                    else
+                    {
+                        using (Image Flippedfish = Image.FromFile("otherimage\\sward.png"))
+                        {
+                            // Flip the image
+                            Flippedfish.RotateFlip(RotateFlipType.RotateNoneFlipX);
+
+
+
+                            drawingSpace.Graphics.TranslateTransform(_x, _y); // Déplace l'origine du dessin au centre du fish
+                            drawingSpace.Graphics.DrawImage(Flippedfish, -Flippedfish.Width / 2, -Flippedfish.Height / 2);
+                            drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
+
+                        }
+                    }
+
+
                 }
-                else
+                else if (wepontype == 1)
                 {
-                    using (Image Flippedfish = Image.FromFile("otherimage\\sward.png"))
+                    using (Image Flippedfish = Image.FromFile("otherimage\\gun.png"))
                     {
                         // Flip the image
                         Flippedfish.RotateFlip(RotateFlipType.RotateNoneFlipX);
 
 
 
-                        drawingSpace.Graphics.TranslateTransform((_x + 20), _y); // Déplace l'origine du dessin au centre du fish
+                        drawingSpace.Graphics.TranslateTransform(_x, _y); // Déplace l'origine du dessin au centre du fish
                         drawingSpace.Graphics.DrawImage(Flippedfish, -Flippedfish.Width / 2, -Flippedfish.Height / 2);
                         drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
 
                     }
                 }
-
-
             }
+
 
 
 

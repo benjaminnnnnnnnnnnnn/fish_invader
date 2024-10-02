@@ -23,6 +23,8 @@ namespace FishInvader
 
         public Heart()
         {
+            _height = GlobalHelpers.alea.Next(1,15);
+
             HeartImage = Image.FromFile("otherimage\\heart.png");
 
             _height = (HeartImage.Height /2);

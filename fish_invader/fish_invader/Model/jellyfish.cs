@@ -31,7 +31,7 @@
 
 
         // Constructeur
-        public Jellyfish(int i)
+        public Jellyfish(int i, int x, int y)
         {
             Jellyfishfilepath = $"originalfish\\jellyf1sh20.png";
             Jellyfishfilepath2 = $"originalfish\\jellyf2sh20.png";
@@ -132,9 +132,9 @@
 
             //set pos to ramdom location
 
-            _y = GlobalHelpers.alea.Next(0, 600);
+            _y = y;
 
-            _x = GlobalHelpers.alea.Next(0, 1200);
+            _x = x;
 
 
 
@@ -164,52 +164,95 @@
         {
             if (!AirSpace.TalkingToPng)
             {
-
-
-                if (_stage <= _speed)
+                if (AirSpace.eventtype == 0 && AirSpace.ramdomEvent)
                 {
-                    _stage++;
-
-                    if (v ==  0)
+                    if (_stage <= (_speed * 2))
                     {
-                        v++;
-                    }
-
-
-
-                }
-                else if (_stage == _speed)
-                {
-                    _stage++;
-                    _y--;
-                }
-                else if (_stage > _speed)
-                {
-                    if (v == 1)
-                    {
-                        v--;
-                    }
-
-                    _y -= (_speed + _speed - _stage);
-
-
-                    if ((_stage - _speed) <= s)
-                    {
-                        s = 0;
                         _stage++;
+
+                        if (v == 0)
+                        {
+                            v++;
+                        }
+
+
+
                     }
+                    else if (_stage == (_speed * 2))
+                    {
+                        _stage++;
+                        _y--;
+                    }
+                    else if (_stage > (_speed * 2))
+                    {
+                        if (v == 1)
+                        {
+                            v--;
+                        }
 
-                    s++;
+                        _y -= ((_speed * 2) + _speed - _stage);
 
-                    if ((_speed + _speed) <= _stage)
-                        _stage = (0 - _speed);
+
+                        if ((_stage - (_speed)) <= s)
+                        {
+                            s = 0;
+                            _stage++;
+                        }
+
+                        s++;
+
+                        if ((_speed + (_speed * 2)) <= _stage)
+                            _stage = (0 - (_speed * 2));
+                    }
                 }
+                else
+                {
+                    if (_stage <= _speed)
+                    {
+                        _stage++;
+
+                        if (v == 0)
+                        {
+                            v++;
+                        }
+
+
+
+                    }
+                    else if (_stage == _speed)
+                    {
+                        _stage++;
+                        _y--;
+                    }
+                    else if (_stage > _speed)
+                    {
+                        if (v == 1)
+                        {
+                            v--;
+                        }
+
+                        _y -= (_speed + _speed - _stage);
+
+
+                        if ((_stage - _speed) <= s)
+                        {
+                            s = 0;
+                            _stage++;
+                        }
+
+                        s++;
+
+                        if ((_speed + _speed) <= _stage)
+                            _stage = (0 - _speed);
+                    }
+                }
+
 
 
 
                 if (_y <= -100)
                 {
-                    if (AirSpace.SharkEvent && AirSpace.EventTime > 1000)
+                    if (AirSpace.eventtype == 0 && AirSpace.ramdomEvent && AirSpace.EventTime > 1000)
                     {
                         _y = -300;
                     }

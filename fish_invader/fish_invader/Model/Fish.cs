@@ -83,7 +83,7 @@ namespace FishInvader
                     }
                 }
 
-                if (!((_x - _width) >= 1180))
+                if (!((_x - _width) >= 1163))
                 {
                     if (moveRight)
                     {
@@ -93,18 +93,22 @@ namespace FishInvader
                     }
                 }
 
+                BadFish.ShopTouch = false;
                 BadFish.PnjTouch = false;
                 //if touch png
                 touchingPngId = 0;
                 foreach (BadFish badfish in badfleet)
                 {
                     touchingPngId++;
-                    if (badfish.IsPnj)
+                    if (badfish.IsPnj || badfish.IsShop)
                     {
                         if ((badfish.X - badfish.Width) <= (_x + _width) && (badfish.Y - badfish.Height) <= (_y + _height) && (badfish.X + badfish.Width) >= (_x - _width) && (badfish.Y + badfish.Height) >= (_y - _height))
                         {
 
-                            BadFish.PnjTouch = true;
+                            if (badfish.IsPnj)
+                                BadFish.PnjTouch = true;
+                            else
+                                BadFish.ShopTouch = true;
                             break;
                         }
 
@@ -113,11 +117,13 @@ namespace FishInvader
 
                 }
 
+
+
                 //if touch badfish
                 foreach (BadFish badfish in badfleet)
                 {
 
-                    if (!badfish.IsPnj)
+                    if (!badfish.IsPnj && !badfish.IsShop)
                     {
                         if ((badfish.X - badfish.Width) <= (_x + _width) && (badfish.Y - badfish.Height) <= (_y + _height) && (badfish.X + badfish.Width) >= (_x - _width) && (badfish.Y + badfish.Height) >= (_y - _height))
                         {
@@ -197,28 +203,55 @@ namespace FishInvader
 
 
                 //if touch shark event
-                if (AirSpace.SharkEvent && AirSpace.EventTime >= 1000)
+                if (AirSpace.eventtype == 0 && AirSpace.ramdomEvent && AirSpace.EventTime >= 1000)
                 {
                     foreach (Event e in events)
                     {
-                        if ((e.x - e.Shark1.Width) <= (_x + _width) && (200 - e.Shark1.Height) <= (_y + _height) && (e.x + e.Shark1.Width) >= (_x - _width) && (200 + e.Shark1.Height) >= (_y - _height))
-                        {
-                            Console.Write("-1hp");
 
+                        if ((e.x - e.Widths1) <= (_x + _width) && (200 - e.Heights1) <= (_y + _height) && (e.x + e.Widths1) >= (_x - _width) && (200 + e.Heights1) >= (_y - _height) && e.Health1 > 0)
+                        {
+
+                            helth -= 1;
                         }
 
 
-                        if ((e.x - e.Shark2.Width) <= (_x + _width) && (400 - e.Shark2.Height) <= (_y + _height) && (e.x + e.Shark2.Width) >= (_x - _width) && (400 + e.Shark2.Height) >= (_y - _height))
+                        if ((e.x2 - e.Widths2) <= (_x + _width) && (400 - e.Heights2) <= (_y + _height) && (e.x2 + e.Widths2) >= (_x - _width) && (400 + e.Heights2) >= (_y - _height) && e.Health2 > 0)
                         {
-                            Console.Write("-1hp");
+                            helth -= 1;
 
                         }
 
-                        if ((e.x - e.Babyshark.Width) <= (_x + _width) && (475 - e.Babyshark.Height) <= (_y + _height) && (e.x + e.Babyshark.Width) >= (_x - _width) && (475 + e.Babyshark.Height) >= (_y - _height))
+                        if ((e.x3 - e.Widths3) <= (_x + _width) && (475 - e.Heights3) <= (_y + _height) && (e.x3 + e.Widths3) >= (_x - _width) && (475 + e.Heights3) >= (_y - _height) && e.Health3 > 0)
                         {
-                            Console.Write("-1hp");
+                            helth -= 1;
 
                         }
+
+                    }
+                }
+
+                if (AirSpace.eventtype == 1 && AirSpace.ramdomEvent)
+                {
+                    foreach (Event e in events)
+                    {
+                        //bottom
+                        if ((e.Whaley + e.Heightwhale -55) >= (_y - _height) && (e.Whalex + e.Widthwhale - 15) >= (_x - _width) && (e.Whalex - e.Widthwhale +15) <= (_x + _width) && moveUp)
+                            _y = ((e.Whaley + e.Heightwhale) - 55);
+
+                        //left
+                        if ((e.Whalex + e.Widthwhale) >= (_x - _width) && (e.Whaley + e.Heightwhale -55) >= (_y + _height) && (e.Whalex - e.Widthwhale +100) <= (_x + _width))
+                            _x = ((e.Whalex + e.Widthwhale) + 8);
+
+                        //right
+                        if ((e.Whalex + e.Widthwhale -100) >= (_x - _width) && (e.Whaley + e.Heightwhale -55) >= (_y + _height) && (e.Whalex - e.Widthwhale) <= (_x + _width))
+                            _x = ((e.Whalex - e.Widthwhale) - 8);
+
+                        if (_x >= 1200)
+                        {
+                            _x = 1167;
+                            _y = ((e.Whaley + e.Heightwhale) -55);
+                        }
+
 
                     }
                 }

@@ -28,8 +28,11 @@ namespace FishInvader
             if (IsPnj == true)
                 drawingSpace.Graphics.DrawString($"{this}", TextHelpers.drawFont, TextHelpers.writingBrushPNJ, (X - (Name.Length * 3)), (Y  - Height - 15));
 
-            
-            if (PnjTouch == true)
+            if (IsShop == true)
+                drawingSpace.Graphics.DrawString($"{this}", TextHelpers.drawFont, TextHelpers.writingBrushGold, (X - (Name.Length * 3)), (Y - Height - 15));
+
+
+            if (PnjTouch == true || ShopTouch == true)
             {
                 drawingSpace.Graphics.TranslateTransform(1160, 565);
                 if (Fish.pressingE == true)
@@ -44,6 +47,20 @@ namespace FishInvader
 
             }
 
+            if (ShopTouch == true)
+            {
+                drawingSpace.Graphics.TranslateTransform(1160, 565);
+                if (Fish.pressingE == true)
+                {
+                    drawingSpace.Graphics.DrawImage(PressEdown, -PressEdown.Width / 2, -PressEdown.Height / 2);
+                }
+                else
+                {
+                    drawingSpace.Graphics.DrawImage(PressE, -PressE.Width / 2, -PressE.Height / 2);
+                }
+                drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
+
+            }
 
 
 

@@ -3,17 +3,18 @@
     public partial class BadFish
     {
         private int type = GlobalHelpers.alea.Next(1, 20);
-        private string fishfilepath;
         public static Image originalfish;
         private int _x;                                 // Position en X depuis la gauche de l'espace aérien
         private int _y;                                 // Position en Y depuis le haut de l'espace aérien
         private string _name;
         private int _speed;
         private bool _IsPnj = false;
+        private bool _isShop = false;
         private int _id;
         private int _width;
         private int _height;
         public static bool PnjTouch = false;
+        public static bool ShopTouch = false;
         public static Image PressE = Image.FromFile("PressE.png");
         public static Image PressEdown = Image.FromFile("PressEdown.png");
         private int _colorR = GlobalHelpers.alea.Next(0, 256);
@@ -27,9 +28,10 @@
 
 
         // Constructeur
-        public BadFish(int i)
+        public BadFish(int i, int x, int y)
         {
-            fishfilepath = $"originalfish\\f{type}sh20.png";
+            originalfish = Image.FromFile($"originalfish\\f{type}sh20.png");
+            helth = 20;
 
             for (_size = 5; _size < 16; _size++)
             {
@@ -37,12 +39,12 @@
 
                 if (GlobalHelpers.alea.Next(1, 3) == 2)
                 {
-                    fishfilepath = $"originalfish\\f{type}sh{_size}.png";
+                    originalfish = Image.FromFile($"originalfish\\f{type}sh" + _size + ".png");
                     helth = _size;
                     break;
                 }
             }
-            originalfish = Image.FromFile(fishfilepath);
+
 
 
 
@@ -57,6 +59,12 @@
             if ((GlobalHelpers.alea.Next(0, 25)) == 0)
             {
                 _IsPnj = true;
+                _name = metode.RandomName();
+                _speed = GlobalHelpers.alea.Next(1, 3);
+            }
+            else if ((GlobalHelpers.alea.Next(0, 25)) == 0)
+            {
+                _isShop = true;
                 _name = metode.RandomName();
                 _speed = GlobalHelpers.alea.Next(1, 3);
             }
@@ -127,10 +135,9 @@
             if (type == 14)
                 _y = 600 - _height;
             else
-                _y = GlobalHelpers.alea.Next(0, 600);
+                _y = y;
 
-            _x = GlobalHelpers.alea.Next(0, 1200);
-
+            _x = x;
 
 
             _id = i;
@@ -139,6 +146,7 @@
         public int Y { get { return _y; } }
         public string Name { get { return _name; } }
         public bool IsPnj { get { return _IsPnj; } }
+        public bool IsShop {  get {  return _isShop; } }
 
         public int Height { get { return _height; } }
         public int Width { get { return _width; } }
@@ -159,9 +167,9 @@
             if (!AirSpace.TalkingToPng)
             {
 
-                if (AirSpace.SharkEvent)
+                if (AirSpace.eventtype == 0 && AirSpace.ramdomEvent)
                 {
-                    _x += (_speed * 2);
+                    _x += (_speed * 3);
                 }
                 else
                     _x += _speed;
@@ -173,17 +181,23 @@
 
                 if (_x >= 1300)
                 {
-                    if (AirSpace.SharkEvent && AirSpace.EventTime > 1000)
+                    if (AirSpace.eventtype == 0 && AirSpace.ramdomEvent && AirSpace.EventTime > 1000)
                     {
                         _x = 1500;
                     }
                     else
                     {
 
-                        //is png
+                        //is pnj
                         if ((GlobalHelpers.alea.Next(0, 25)) == 0)
                         {
                             _IsPnj = true;
+                            _name = metode.RandomName();
+                            _speed = GlobalHelpers.alea.Next(1, 3);
+                        }
+                        else if ((GlobalHelpers.alea.Next(0, 1) == 0))
+                        {
+                            _isShop = true;
                             _name = metode.RandomName();
                             _speed = GlobalHelpers.alea.Next(1, 3);
                         }
@@ -195,8 +209,8 @@
                         }
 
 
-
-
+                        originalfish = Image.FromFile($"originalfish\\f{type}sh20.png");
+                        helth = 20;
                         //changer la taile du poison
                         type = GlobalHelpers.alea.Next(1, 20);
                         for (_size = 5; _size < 16; _size++)
@@ -216,6 +230,8 @@
 
                         if (type == 14)
                             _y = 600 - _height;
+                        else if (AirSpace.eventtype == 1 && AirSpace.ramdomEvent)
+                            _y = GlobalHelpers.alea.Next(380, 600);
                         else
                             _y = GlobalHelpers.alea.Next(0, 600);
                         _x = -100;
