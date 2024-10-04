@@ -48,7 +48,7 @@ namespace FishInvader
 
         // Cette méthode calcule le nouvel état dans lequel le drone se trouve après
         // que 'interval' millisecondes se sont écoulées
-        public void Update(bool moveUp, bool moveDown, bool moveLeft, bool moveRight, int speed, List<BadFish> badfleet, List<Event> events, List<Jellyfish> jellyfleet, List<Heart> hearts, List<Gold> golds)
+        public void Update(bool moveUp, bool moveDown, bool moveLeft, bool moveRight, int speed, List<BadFish> badfleet, Event Event, List<Jellyfish> jellyfleet, List<Heart> hearts, List<Gold> golds)
         {
             bool moved = false;
 
@@ -195,7 +195,7 @@ namespace FishInvader
 
                         _gold += gold.Amount;
                         Console.WriteLine(_gold);
-                        golds .Remove(gold);
+                        golds.Remove(gold);
                         break;
                     }
 
@@ -205,55 +205,53 @@ namespace FishInvader
                 //if touch shark event
                 if (AirSpace.eventtype == 0 && AirSpace.ramdomEvent && AirSpace.EventTime >= 1000)
                 {
-                    foreach (Event e in events)
+
+
+                    if ((Event.x - Event.Widths1) <= (_x + _width) && (200 - Event.Heights1) <= (_y + _height) && (Event.x + Event.Widths1) >= (_x - _width) && (200 + Event.Heights1) >= (_y - _height) && Event.Health1 > 0)
                     {
 
-                        if ((e.x - e.Widths1) <= (_x + _width) && (200 - e.Heights1) <= (_y + _height) && (e.x + e.Widths1) >= (_x - _width) && (200 + e.Heights1) >= (_y - _height) && e.Health1 > 0)
-                        {
-
-                            helth -= 1;
-                        }
+                        helth -= 1;
+                    }
 
 
-                        if ((e.x2 - e.Widths2) <= (_x + _width) && (400 - e.Heights2) <= (_y + _height) && (e.x2 + e.Widths2) >= (_x - _width) && (400 + e.Heights2) >= (_y - _height) && e.Health2 > 0)
-                        {
-                            helth -= 1;
-
-                        }
-
-                        if ((e.x3 - e.Widths3) <= (_x + _width) && (475 - e.Heights3) <= (_y + _height) && (e.x3 + e.Widths3) >= (_x - _width) && (475 + e.Heights3) >= (_y - _height) && e.Health3 > 0)
-                        {
-                            helth -= 1;
-
-                        }
+                    if ((Event.x2 - Event.Widths2) <= (_x + _width) && (400 - Event.Heights2) <= (_y + _height) && (Event.x2 + Event.Widths2) >= (_x - _width) && (400 + Event.Heights2) >= (_y - _height) && Event.Health2 > 0)
+                    {
+                        helth -= 1;
 
                     }
+
+                    if ((Event.x3 - Event.Widths3) <= (_x + _width) && (475 - Event.Heights3) <= (_y + _height) && (Event.x3 + Event.Widths3) >= (_x - _width) && (475 + Event.Heights3) >= (_y - _height) && Event.Health3 > 0)
+                    {
+                        helth -= 1;
+
+                    }
+
+
                 }
 
                 if (AirSpace.eventtype == 1 && AirSpace.ramdomEvent)
                 {
-                    foreach (Event e in events)
+
+                    //bottom
+                    if ((Event.Whaley + Event.Heightwhale - 55) >= (_y - _height) && (Event.Whalex + Event.Widthwhale - 15) >= (_x - _width) && (Event.Whalex - Event.Widthwhale + 15) <= (_x + _width) && moveUp)
+                        _y = ((Event.Whaley + Event.Heightwhale) - 55);
+
+                    //left
+                    if ((Event.Whalex + Event.Widthwhale) >= (_x - _width) && (Event.Whaley + Event.Heightwhale - 55) >= (_y + _height) && (Event.Whalex - Event.Widthwhale + 100) <= (_x + _width))
+                        _x = ((Event.Whalex + Event.Widthwhale) + 8);
+
+                    //right
+                    if ((Event.Whalex + Event.Widthwhale - 100) >= (_x - _width) && (Event.Whaley + Event.Heightwhale - 55) >= (_y + _height) && (Event.Whalex - Event.Widthwhale) <= (_x + _width))
+                        _x = ((Event.Whalex - Event.Widthwhale) - 8);
+
+                    if (_x >= 1200)
                     {
-                        //bottom
-                        if ((e.Whaley + e.Heightwhale -55) >= (_y - _height) && (e.Whalex + e.Widthwhale - 15) >= (_x - _width) && (e.Whalex - e.Widthwhale +15) <= (_x + _width) && moveUp)
-                            _y = ((e.Whaley + e.Heightwhale) - 55);
-
-                        //left
-                        if ((e.Whalex + e.Widthwhale) >= (_x - _width) && (e.Whaley + e.Heightwhale -55) >= (_y + _height) && (e.Whalex - e.Widthwhale +100) <= (_x + _width))
-                            _x = ((e.Whalex + e.Widthwhale) + 8);
-
-                        //right
-                        if ((e.Whalex + e.Widthwhale -100) >= (_x - _width) && (e.Whaley + e.Heightwhale -55) >= (_y + _height) && (e.Whalex - e.Widthwhale) <= (_x + _width))
-                            _x = ((e.Whalex - e.Widthwhale) - 8);
-
-                        if (_x >= 1200)
-                        {
-                            _x = 1167;
-                            _y = ((e.Whaley + e.Heightwhale) -55);
-                        }
-
-
+                        _x = 1167;
+                        _y = ((Event.Whaley + Event.Heightwhale) - 55);
                     }
+
+
+
                 }
             }
 

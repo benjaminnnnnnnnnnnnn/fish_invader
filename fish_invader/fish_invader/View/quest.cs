@@ -32,7 +32,7 @@ namespace fish_invader
 
 
 
-        public void Render(BufferedGraphics drawingSpace, List<Fish> fleet, List<BadFish> badfleet, List<Jellyfish> jellyfleet)
+        public void Render(BufferedGraphics drawingSpace, Fish fish, List<BadFish> badfleet, List<Jellyfish> jellyfleet)
         {
             strings = new string[6, 4]
             {
@@ -155,52 +155,51 @@ namespace fish_invader
 
 
 
-            foreach (Fish fish in fleet)
+
+            if (fish.Y < 300)
             {
-                if (fish.Y < 300)
+                drawingSpace.Graphics.DrawRectangle(droneBrushblack, 150, 475, 900, 1);
+                drawingSpace.Graphics.DrawRectangle(droneBrush, 50, 375, 1100, 200);
+                drawingSpace.Graphics.DrawString(strings[AirSpace.QuestType, AirSpace.dialogNum], TextHelpers.drawbigFont, TextHelpers.writingBrush, 300, 425);
+
+                drawingSpace.Graphics.DrawString(pngname, TextHelpers.drawbigFont, TextHelpers.writingBrush, 500, 350);
+
+
+                drawingSpace.Graphics.TranslateTransform(75, 400); // Déplace l'origine du dessin au centre du fish
+                drawingSpace.Graphics.DrawImage(fishimage, -fishimage.Width / 2, -fishimage.Height / 2);
+                drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
+
+                if (AirSpace.dialogNum == 1)
                 {
-                    drawingSpace.Graphics.DrawRectangle(droneBrushblack, 150, 475, 900, 1);
-                    drawingSpace.Graphics.DrawRectangle(droneBrush, 50, 375, 1100, 200);
-                    drawingSpace.Graphics.DrawString(strings[AirSpace.QuestType, AirSpace.dialogNum], TextHelpers.drawbigFont, TextHelpers.writingBrush, 300, 425);
-
-                    drawingSpace.Graphics.DrawString(pngname, TextHelpers.drawbigFont, TextHelpers.writingBrush, 500, 350);
-
-
-                    drawingSpace.Graphics.TranslateTransform(75, 400); // Déplace l'origine du dessin au centre du fish
-                    drawingSpace.Graphics.DrawImage(fishimage, -fishimage.Width / 2, -fishimage.Height / 2);
-                    drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
-
-                    if (AirSpace.dialogNum == 1)
-                    {
-                        drawingSpace.Graphics.DrawRectangle(droneBrushgreen, 900, 450, 75, 1);
-                        drawingSpace.Graphics.DrawString("ok (y)", TextHelpers.drawbigFont, TextHelpers.writingBrush, 900, 431);
-                        drawingSpace.Graphics.DrawRectangle(droneBrushred, 900, 525, 75, 1);
-                        drawingSpace.Graphics.DrawString("no (n)", TextHelpers.drawbigFont, TextHelpers.writingBrush, 900, 506);
-                    }
-
+                    drawingSpace.Graphics.DrawRectangle(droneBrushgreen, 900, 450, 75, 1);
+                    drawingSpace.Graphics.DrawString("ok (y)", TextHelpers.drawbigFont, TextHelpers.writingBrush, 900, 431);
+                    drawingSpace.Graphics.DrawRectangle(droneBrushred, 900, 525, 75, 1);
+                    drawingSpace.Graphics.DrawString("no (n)", TextHelpers.drawbigFont, TextHelpers.writingBrush, 900, 506);
                 }
-                else
+
+            }
+            else
+            {
+                drawingSpace.Graphics.DrawRectangle(droneBrushblack, 150, 125, 900, 1);
+                drawingSpace.Graphics.DrawRectangle(droneBrush, 50, 25, 1100, 200);
+
+                drawingSpace.Graphics.DrawString(strings[AirSpace.QuestType, AirSpace.dialogNum], TextHelpers.drawbigFont, TextHelpers.writingBrush, 300, 100);
+
+                drawingSpace.Graphics.DrawString(pngname, TextHelpers.drawbigFont, TextHelpers.writingBrush, 500, 20);
+
+                drawingSpace.Graphics.TranslateTransform(75, 50); // Déplace l'origine du dessin au centre du fish
+                drawingSpace.Graphics.DrawImage(fishimage, -fishimage.Width / 2, -fishimage.Height / 2);
+                drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
+
+                if (AirSpace.dialogNum == 1)
                 {
-                    drawingSpace.Graphics.DrawRectangle(droneBrushblack, 150, 125, 900, 1);
-                    drawingSpace.Graphics.DrawRectangle(droneBrush, 50, 25, 1100, 200);
-
-                    drawingSpace.Graphics.DrawString(strings[AirSpace.QuestType, AirSpace.dialogNum], TextHelpers.drawbigFont, TextHelpers.writingBrush, 300, 100);
-
-                    drawingSpace.Graphics.DrawString(pngname, TextHelpers.drawbigFont, TextHelpers.writingBrush, 500, 20);
-
-                    drawingSpace.Graphics.TranslateTransform(75, 50); // Déplace l'origine du dessin au centre du fish
-                    drawingSpace.Graphics.DrawImage(fishimage, -fishimage.Width / 2, -fishimage.Height / 2);
-                    drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
-
-                    if (AirSpace.dialogNum == 1)
-                    {
-                        drawingSpace.Graphics.DrawRectangle(droneBrushgreen, 900, 100, 75, 1);
-                        drawingSpace.Graphics.DrawString("ok (y)", TextHelpers.drawbigFont, TextHelpers.writingBrush, 900, 81);
-                        drawingSpace.Graphics.DrawRectangle(droneBrushred, 900, 175, 75, 1);
-                        drawingSpace.Graphics.DrawString("no (n)", TextHelpers.drawbigFont, TextHelpers.writingBrush, 900, 159);
-                    }
+                    drawingSpace.Graphics.DrawRectangle(droneBrushgreen, 900, 100, 75, 1);
+                    drawingSpace.Graphics.DrawString("ok (y)", TextHelpers.drawbigFont, TextHelpers.writingBrush, 900, 81);
+                    drawingSpace.Graphics.DrawRectangle(droneBrushred, 900, 175, 75, 1);
+                    drawingSpace.Graphics.DrawString("no (n)", TextHelpers.drawbigFont, TextHelpers.writingBrush, 900, 159);
                 }
             }
+
 
         }
     }

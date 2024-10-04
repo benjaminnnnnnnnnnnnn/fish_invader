@@ -14,16 +14,7 @@ namespace FishInvader
 
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
-            ApplicationConfiguration.Initialize();
-
-            // Création de la flotte de poissons
-            List<Fish> fleet = new List<Fish>();
-            fleet.Add(new Fish(AirSpace.WIDTH / 2, AirSpace.HEIGHT / 2, "Fish"));
-
-            List<Wepon> wepons = new List<Wepon>();
-            wepons.Add(new Wepon());
-
-            
+            ApplicationConfiguration.Initialize();           
 
 
             List<BadFish> badfleet = new List<BadFish>();           
@@ -40,7 +31,7 @@ namespace FishInvader
 
 
             // Démarrage
-            Application.Run(new AirSpace(fleet, badfleet, jellyfleet, wepons));
+            Application.Run(new AirSpace(badfleet, jellyfleet));
 
 
 

@@ -41,15 +41,15 @@ namespace fish_invader
             {Image.FromFile("otherimage\\missing_texture.png"), Image.FromFile("otherimage\\missing_texture.png"), Image.FromFile("otherimage\\missing_texture.png"), Image.FromFile("otherimage\\missing_texture.png"), Image.FromFile("otherimage\\missing_texture.png")},
             };
 
-        private int[,] price = new int[3, 5]
+        public int[,] price = new int[3, 5]
         {
-            {50,0,0,0,0},
+            {1,0,0,0,0},
             {0,0,0,0,0},
             {0,0,0,0,0}, 
         };
 
 
-        public void Render(BufferedGraphics drawingSpace, List<Fish> fleet, List<BadFish> badfleet, List<Jellyfish> jellyfleet)
+        public void Render(BufferedGraphics drawingSpace, Fish fish, List<BadFish> badfleet, List<Jellyfish> jellyfleet)
         {
 
 
@@ -163,8 +163,7 @@ namespace fish_invader
 
 
 
-            foreach (Fish fish in fleet)
-            {
+
                 drawingSpace.Graphics.DrawRectangle(droneBrushblack, 150, 475, 900, 1);
                 drawingSpace.Graphics.DrawRectangle(droneBrush, 50, 375, 1100, 200);
 
@@ -204,7 +203,7 @@ namespace fish_invader
 
 
 
-            }
+            
 
 
         }

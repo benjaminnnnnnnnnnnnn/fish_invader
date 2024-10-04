@@ -164,6 +164,7 @@
         // que 'interval' millisecondes se sont écoulées
         public void Update()
         {
+            
             if (!AirSpace.TalkingToPng)
             {
 
@@ -191,18 +192,21 @@
                         //is pnj
                         if ((GlobalHelpers.alea.Next(0, 25)) == 0)
                         {
+                            _isShop = false;
                             _IsPnj = true;
                             _name = metode.RandomName();
                             _speed = GlobalHelpers.alea.Next(1, 3);
                         }
-                        else if ((GlobalHelpers.alea.Next(0, 1) == 0))
+                        else if ((GlobalHelpers.alea.Next(0, 25)) == 0)
                         {
+                            _IsPnj = false;
                             _isShop = true;
                             _name = metode.RandomName();
                             _speed = GlobalHelpers.alea.Next(1, 3);
                         }
                         else
                         {
+                            _isShop = false;    
                             _IsPnj = false;
                             _name = "";
                             _speed = GlobalHelpers.alea.Next(1, 6);
@@ -292,7 +296,7 @@
 
                 }
             }
-
+            
         }
 
 

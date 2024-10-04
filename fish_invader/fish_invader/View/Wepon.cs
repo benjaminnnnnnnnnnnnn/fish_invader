@@ -45,7 +45,7 @@ namespace FishInvader
                 }
                 else if (wepontype == 1)
                 {
-                    drawingSpace.Graphics.TranslateTransform(_x, _y); // Déplace l'origine du dessin au centre du fish
+                    drawingSpace.Graphics.TranslateTransform(_x - 5, _y); // Déplace l'origine du dessin au centre du fish
                     drawingSpace.Graphics.DrawImage(WeponImageGun, -WeponImageGun.Width / 2, -WeponImageGun.Height / 2);
                     drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
                 }
@@ -97,7 +97,7 @@ namespace FishInvader
 
 
 
-                        drawingSpace.Graphics.TranslateTransform(_x, _y); // Déplace l'origine du dessin au centre du fish
+                        drawingSpace.Graphics.TranslateTransform(_x + 5, _y); // Déplace l'origine du dessin au centre du fish
                         drawingSpace.Graphics.DrawImage(Flippedfish, -Flippedfish.Width / 2, -Flippedfish.Height / 2);
                         drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
 

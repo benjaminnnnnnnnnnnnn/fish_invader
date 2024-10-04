@@ -15,7 +15,7 @@ namespace FishInvader
         private int _height;
         private int _width;
         private int _damage;
-        public int wepontype = 0;
+        public int wepontype = 1;
 
         public Image WeponImage { get; private set; }
         public Image WeponImageGun { get; private set; }
@@ -37,60 +37,59 @@ namespace FishInvader
 
 
 
-        public void update(List<Fish> fishfleet)
+        public void update(Fish fish)
         {
-            foreach (Fish fish in fishfleet)
-            {
 
-                if (wepontype == 0)
+
+            if (wepontype == 0)
+            {
+                if (Fish.facing_left)
                 {
-                    if (Fish.facing_left)
+                    if (hiting)
                     {
-                        if (hiting)
-                        {
-                            _x = (fish.X - 20);
-                            _y = (fish.Y + 10);
-                        }
-                        else
-                        {
-                            _x = (fish.X - 20);
-                            _y = fish.Y;
-                        }
+                        _x = (fish.X - 20);
+                        _y = (fish.Y + 10);
                     }
                     else
                     {
-                        if (hiting)
-                        {
-                            _x = (fish.X + 20);
-                            _y = (fish.Y + 10);
-                        }
-                        else
-                        {
-                            _x = (fish.X + 20);
-                            _y = fish.Y;
-                        }
-                    }
-
-                }
-                else if (wepontype == 1)
-                {
-                    if (Fish.facing_left)
-                    {
-
                         _x = (fish.X - 20);
                         _y = fish.Y;
-
+                    }
+                }
+                else
+                {
+                    if (hiting)
+                    {
+                        _x = (fish.X + 20);
+                        _y = (fish.Y + 10);
                     }
                     else
                     {
-
                         _x = (fish.X + 20);
                         _y = fish.Y;
-
                     }
                 }
 
             }
+            else if (wepontype == 1)
+            {
+                if (Fish.facing_left)
+                {
+
+                    _x = (fish.X - 20);
+                    _y = fish.Y;
+
+                }
+                else
+                {
+
+                    _x = (fish.X + 20);
+                    _y = fish.Y;
+
+                }
+            }
+
+
 
         }
     }
