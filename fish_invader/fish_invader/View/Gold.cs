@@ -23,7 +23,7 @@ namespace FishInvader
 
         public Gold(int x, int y, int sizefish)
         {
-            HeartImage = Image.FromFile("otherimage\\gold.png");
+            HeartImage = Image.FromFile("images/otherimage/gold.png");
 
             _height = (HeartImage.Height / 2);
             _width = (HeartImage.Width / 2);

@@ -13,21 +13,22 @@ namespace FishInvader
         private Pen droneBrush = new Pen(new SolidBrush(Color.DeepSkyBlue), 3);
         private Pen droneBrushblack = new Pen(new SolidBrush(Color.Black), 1);
 
+        private Image shopimage = Image.FromFile("images/otherimage/shop.png");
+
         // De manière graphique
         public void Render(BufferedGraphics drawingSpace)
         {
+            //pour pas que l'image deviene flou (anti ailashing off)
+            drawingSpace.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
 
             if (v == 1)
             {
-                drawingSpace.Graphics.TranslateTransform(X, Y); // Déplace l'origine du dessin au centre du fish
-                drawingSpace.Graphics.DrawImage(JellyFishImage2, -JellyFishImage2.Width / 2, -JellyFishImage2.Height / 2);
-                drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
+                drawingSpace.Graphics.DrawImage(JellyFishImage2, new Rectangle(X, Y, _width, _height));
             }
             else
             {
-                drawingSpace.Graphics.TranslateTransform(X, Y); // Déplace l'origine du dessin au centre du fish
-                drawingSpace.Graphics.DrawImage(JellyFishImage, -JellyFishImage.Width / 2, -JellyFishImage.Height / 2);
-                drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
+                drawingSpace.Graphics.DrawImage(JellyFishImage, new Rectangle(X, Y, _width, _height));
+
             }
 
 
@@ -35,10 +36,18 @@ namespace FishInvader
 
 
             if (IsPnj == true)
-                drawingSpace.Graphics.DrawString($"{this}", TextHelpers.drawFont, TextHelpers.writingBrushPNJ, (X - (Name.Length * 3)), (Y - Height - 15));
+                drawingSpace.Graphics.DrawString($"{this}", TextHelpers.drawFont, TextHelpers.writingBrushPNJ, (X + _width / 2 - (Name.Length * 3)), (Y + _height / 20) - 40);
+
+            if (IsShop == true)
+            {
+                drawingSpace.Graphics.DrawString($"{this}", TextHelpers.drawFont, TextHelpers.writingBrushGold, (X + _width / 2 - (Name.Length * 3)), (Y + _height / 20) - 40);
+
+                drawingSpace.Graphics.DrawImage(shopimage, new Rectangle(X + _width / 4, Y + Height / 5, _width / 2, _height / 3));
+
+            }
 
 
-            if (PnjTouch == true)
+            if (PnjTouch == true || ShopTouch == true)
             {
                 drawingSpace.Graphics.TranslateTransform(1160, 565);
                 if (Fish.pressingE == true)

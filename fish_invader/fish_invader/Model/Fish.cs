@@ -17,6 +17,7 @@ namespace FishInvader
         public static int touchingPngId;
         public static int touchingjellyPngId;
         private int _gold = 0;
+        public static bool isportected = false;
 
 
         public Image FishImage { get; private set; }
@@ -28,10 +29,10 @@ namespace FishInvader
             _y = y;
             _name = name;
 
-            FishImage = Image.FromFile("originalfish\\f2sh1.png");
+            FishImage = Image.FromFile("images/originalfish/f2sh1.png");
 
-            _height = (FishImage.Height / 2);
-            _width = (FishImage.Width / 2);
+            _height = (FishImage.Height * 2);
+            _width = (FishImage.Width * 2);
 
             //hitbox
             //fishpicture = new PictureBox();
@@ -48,14 +49,14 @@ namespace FishInvader
 
         // Cette méthode calcule le nouvel état dans lequel le drone se trouve après
         // que 'interval' millisecondes se sont écoulées
-        public void Update(bool moveUp, bool moveDown, bool moveLeft, bool moveRight, int speed, List<BadFish> badfleet, Event Event, List<Jellyfish> jellyfleet, List<Heart> hearts, List<Gold> golds)
+        public void Update(bool moveUp, bool moveDown, bool moveLeft, bool moveRight, int speed, List<BadFish> badfleet, Event Event, List<Jellyfish> jellyfleet, List<Heart> hearts, List<Gold> golds,List<Kelp> kelps)
         {
             bool moved = false;
 
             if (!AirSpace.TalkingToPng)
             {
 
-                if (!((_y - _height) <= 2))
+                if (!(_y <= 0))
                 {
                     if (moveUp)
                     {
@@ -64,7 +65,7 @@ namespace FishInvader
                     }
                 }
 
-                if (!((_y + _height) >= 598))
+                if (!((_y + _height) >= 600))
                 {
                     if (moveDown)
                     {
@@ -73,7 +74,7 @@ namespace FishInvader
                     }
                 }
 
-                if (!((_x - _width) <= 2))
+                if (!(_x <= 0))
                 {
                     if (moveLeft)
                     {
@@ -83,7 +84,7 @@ namespace FishInvader
                     }
                 }
 
-                if (!((_x - _width) >= 1163))
+                if (!((_x + _width) >= 1200))
                 {
                     if (moveRight)
                     {
@@ -92,6 +93,17 @@ namespace FishInvader
                         facing_left = false;
                     }
                 }
+
+                isportected = false;
+                foreach (Kelp kelp in kelps)
+                {
+                    if (kelp.X <= (_x + Width) && kelp.Y <= (_y + _height) && (kelp.X + kelp.Width) >= _x && (kelp.Y + kelp.Height) >= _y)
+                    {
+                        isportected = true;
+                        break;
+                    }
+                }
+
 
                 BadFish.ShopTouch = false;
                 BadFish.PnjTouch = false;
@@ -102,7 +114,7 @@ namespace FishInvader
                     touchingPngId++;
                     if (badfish.IsPnj || badfish.IsShop)
                     {
-                        if ((badfish.X - badfish.Width) <= (_x + _width) && (badfish.Y - badfish.Height) <= (_y + _height) && (badfish.X + badfish.Width) >= (_x - _width) && (badfish.Y + badfish.Height) >= (_y - _height))
+                        if ((badfish.X - (badfish.Width / badfish.Size - 15)) <= (_x + _width) && (badfish.Y - (badfish.Height / badfish.Size - 10)) <= (_y + _height) && (badfish.X + badfish.Width) >= _x && (badfish.Y + badfish.Height) >= _y)
                         {
 
                             if (badfish.IsPnj)
@@ -123,9 +135,9 @@ namespace FishInvader
                 foreach (BadFish badfish in badfleet)
                 {
 
-                    if (!badfish.IsPnj && !badfish.IsShop)
+                    if (!badfish.IsPnj && !badfish.IsShop && !isportected)
                     {
-                        if ((badfish.X - badfish.Width) <= (_x + _width) && (badfish.Y - badfish.Height) <= (_y + _height) && (badfish.X + badfish.Width) >= (_x - _width) && (badfish.Y + badfish.Height) >= (_y - _height))
+                        if ((badfish.X - (badfish.Width / badfish.Size - 15)) <= (_x + _width) && (badfish.Y - (badfish.Height / badfish.Size - 10)) <= (_y + _height) && (badfish.X + badfish.Width) >= _x && (badfish.Y + badfish.Height) >= _y)
                         {
                             helth--;
                         }
@@ -135,19 +147,21 @@ namespace FishInvader
 
                 }
 
-
+                Jellyfish.ShopTouch = false;
                 Jellyfish.PnjTouch = false;
                 //if touch png
                 touchingjellyPngId = 0;
                 foreach (Jellyfish jellyfish in jellyfleet)
                 {
                     touchingjellyPngId++;
-                    if (jellyfish.IsPnj)
+                    if (jellyfish.IsPnj || jellyfish.IsShop)
                     {
-                        if ((jellyfish.X - jellyfish.Width) <= (_x + _width) && (jellyfish.Y - jellyfish.Height) <= (_y + _height) && (jellyfish.X + jellyfish.Width) >= (_x - _width) && (jellyfish.Y + jellyfish.Height) >= (_y - _height))
+                        if ((jellyfish.X - (jellyfish.Width / jellyfish.Size - 15)) <= (_x + _width) && (jellyfish.Y - (jellyfish.Height / jellyfish.Size - 10)) <= (_y + _height) && (jellyfish.X + jellyfish.Width) >= _x && (jellyfish.Y + jellyfish.Height) >= _y)
                         {
-
-                            Jellyfish.PnjTouch = true;
+                            if (jellyfish.IsPnj)
+                                Jellyfish.PnjTouch = true;
+                            else
+                                Jellyfish.ShopTouch = true;
                             break;
                         }
 
@@ -159,9 +173,9 @@ namespace FishInvader
                 foreach (Jellyfish jellyfish in jellyfleet)
                 {
 
-                    if (!jellyfish.IsPnj)
+                    if (!jellyfish.IsPnj && !jellyfish.IsShop && !isportected)
                     {
-                        if ((jellyfish.X - jellyfish.Width) <= (_x + _width) && (jellyfish.Y - jellyfish.Height) <= (_y + _height) && (jellyfish.X + jellyfish.Width) >= (_x - _width) && (jellyfish.Y + jellyfish.Height) >= (_y - _height))
+                        if ((jellyfish.X - (jellyfish.Width / jellyfish.Size - 15)) <= (_x + _width) && (jellyfish.Y - (jellyfish.Height / jellyfish.Size - 10)) <= (_y + _height) && (jellyfish.X + jellyfish.Width) >= _x && (jellyfish.Y + jellyfish.Height) >= _y)
                         {
                             helth--;
                         }
@@ -174,12 +188,12 @@ namespace FishInvader
                 foreach (Heart heart in hearts)
                 {
 
-                    if ((heart.X - heart.Width) <= (_x + _width) && (heart.Y - heart.Height) <= (_y + _height) && (heart.X + heart.Width) >= (_x - _width) && (heart.Y + heart.Height) >= (_y - _height))
+                    if ((heart.X - heart.Width) <= (_x + _width) && (heart.Y - heart.Height) <= (_y + _height) && (heart.X + heart.Width) >= _x && (heart.Y + heart.Height) >= _y)
                     {
-                        if (helth >= 95)
+
+                        helth += heart.Amount;
+                        if (helth > 100)
                             helth = 100;
-                        else
-                            helth += heart.Amount;
                         hearts.Remove(heart);
                         hearts.Add(new Heart());
                         break;
@@ -190,7 +204,7 @@ namespace FishInvader
                 foreach (Gold gold in golds)
                 {
 
-                    if ((gold.X - gold.Width) <= (_x + _width) && (gold.Y - gold.Height) <= (_y + _height) && (gold.X + gold.Width) >= (_x - _width) && (gold.Y + gold.Height) >= (_y - _height))
+                    if ((gold.X - gold.Width) <= (_x + _width) && (gold.Y - gold.Height) <= (_y + _height) && (gold.X + gold.Width) >= _x && (gold.Y + gold.Height) >= _y)
                     {
 
                         _gold += gold.Amount;
@@ -207,20 +221,20 @@ namespace FishInvader
                 {
 
 
-                    if ((Event.x - Event.Widths1) <= (_x + _width) && (200 - Event.Heights1) <= (_y + _height) && (Event.x + Event.Widths1) >= (_x - _width) && (200 + Event.Heights1) >= (_y - _height) && Event.Health1 > 0)
+                    if ((Event.x - Event.Widths1) <= (_x + _width) && (200 - Event.Heights1) <= (_y + _height) && (Event.x + Event.Widths1) >= _x && (200 + Event.Heights1) >= _y && Event.Health1 > 0)
                     {
 
                         helth -= 1;
                     }
 
 
-                    if ((Event.x2 - Event.Widths2) <= (_x + _width) && (400 - Event.Heights2) <= (_y + _height) && (Event.x2 + Event.Widths2) >= (_x - _width) && (400 + Event.Heights2) >= (_y - _height) && Event.Health2 > 0)
+                    if ((Event.x2 - Event.Widths2) <= (_x + _width) && (400 - Event.Heights2) <= (_y + _height) && (Event.x2 + Event.Widths2) >= _x && (400 + Event.Heights2) >= _y && Event.Health2 > 0)
                     {
                         helth -= 1;
 
                     }
 
-                    if ((Event.x3 - Event.Widths3) <= (_x + _width) && (475 - Event.Heights3) <= (_y + _height) && (Event.x3 + Event.Widths3) >= (_x - _width) && (475 + Event.Heights3) >= (_y - _height) && Event.Health3 > 0)
+                    if ((Event.x3 - Event.Widths3) <= (_x + _width) && (475 - Event.Heights3) <= (_y + _height) && (Event.x3 + Event.Widths3) >= _x && (475 + Event.Heights3) >= _y && Event.Health3 > 0)
                     {
                         helth -= 1;
 
@@ -233,15 +247,15 @@ namespace FishInvader
                 {
 
                     //bottom
-                    if ((Event.Whaley + Event.Heightwhale - 55) >= (_y - _height) && (Event.Whalex + Event.Widthwhale - 15) >= (_x - _width) && (Event.Whalex - Event.Widthwhale + 15) <= (_x + _width) && moveUp)
+                    if ((Event.Whaley + Event.Heightwhale - 55) >= _y && (Event.Whalex + Event.Widthwhale - 15) >= _x && (Event.Whalex - Event.Widthwhale + 15) <= (_x + _width) && moveUp)
                         _y = ((Event.Whaley + Event.Heightwhale) - 55);
 
                     //left
-                    if ((Event.Whalex + Event.Widthwhale) >= (_x - _width) && (Event.Whaley + Event.Heightwhale - 55) >= (_y + _height) && (Event.Whalex - Event.Widthwhale + 100) <= (_x + _width))
-                        _x = ((Event.Whalex + Event.Widthwhale) + 8);
+                    if ((Event.Whalex + Event.Widthwhale) >= _x && (Event.Whaley + Event.Heightwhale - 55) >= (_y + _height) && (Event.Whalex - Event.Widthwhale + 100) <= (_x + _width))
+                        _x = ((Event.Whalex + Event.Widthwhale) + 2);
 
                     //right
-                    if ((Event.Whalex + Event.Widthwhale - 100) >= (_x - _width) && (Event.Whaley + Event.Heightwhale - 55) >= (_y + _height) && (Event.Whalex - Event.Widthwhale) <= (_x + _width))
+                    if ((Event.Whalex + Event.Widthwhale - 100) >= _x && (Event.Whaley + Event.Heightwhale - 55) >= (_y + _height) && (Event.Whalex - Event.Widthwhale) <= (_x + _width))
                         _x = ((Event.Whalex - Event.Widthwhale) - 8);
 
                     if (_x >= 1200)

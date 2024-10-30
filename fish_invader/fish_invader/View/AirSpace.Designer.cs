@@ -28,30 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.ticker = new System.Windows.Forms.Timer(this.components);
-            this.SuspendLayout();
+            components = new System.ComponentModel.Container();
+            ticker = new System.Windows.Forms.Timer(components);
+            SuspendLayout();
             // 
             // ticker
             // 
-            this.ticker.Enabled = true;
-            this.ticker.Interval = 1;
+            ticker.Enabled = true;
+            ticker.Interval = 1;
             ticker.Tick += NewFrame;
             // 
             // AirSpace
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.BackgroundImage = global::fish_invader.Properties.Resources.background;
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1184, 598);
-            this.DoubleBuffered = true;
-            this.Name = "AirSpace";
-            this.Text = "AirSpace";
-            this.Load += new System.EventHandler(this.AirSpace_Load);
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ActiveCaption;
+            BackgroundImageLayout = ImageLayout.Stretch;
+            ClientSize = new Size(1184, 598);
+            DoubleBuffered = true;
+            Name = "AirSpace";
+            Text = "AirSpace";
+            Load += AirSpace_Load;
+            ResumeLayout(false);
         }
 
         #endregion

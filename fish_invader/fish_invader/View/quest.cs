@@ -36,10 +36,10 @@ namespace fish_invader
         {
             strings = new string[6, 4]
             {
-                {"Hello", $"Can you kill a shark for {AirSpace.questamount} gold ?", ":(","thank you :>"},
-                {"hi", $"Can you kill 5 fish's for {AirSpace.questamount} gold...","...", "thanks"},
-                {"yo", $"I'm at bit hungry, kill a crab of me ({AirSpace.questamount} Gold)", "too bad", "chers mate"},
-                {"hi", $"is it possible that you can kill a big fish or jellyfish ? ({AirSpace.questamount} Gold)", "(*sad*)", "UwU"},
+                {"bonjour", $"peut tu tuer un requin pour {AirSpace.questamount} gold ?", ":(","merci :>"},
+                {"salut", $"peut tu tuer 5 poissons pour {AirSpace.questamount} gold...","...", "merci"},
+                {"salut", $"peut tu tuer un crab ({AirSpace.questamount} Gold)", "ah...", "mercii"},
+                {"yo", $"peut tu tuer un grand poisson ({AirSpace.questamount} Gold)", "(*triste*)", ":)"},
                 {"", "", "", ""},
                 {"", "", "", ""},
 
@@ -55,7 +55,7 @@ namespace fish_invader
 
                     if (g == Fish.touchingjellyPngId)
                     {
-                        fishimage = Image.FromFile($"originalfish\\jellyf1sh10.png");
+                        fishimage = Image.FromFile($"images/originalfish/jellyf1sh1.png");
                         pngname = jellyfish.Name;
 
                         var bmp = new Bitmap(fishimage);
@@ -75,11 +75,11 @@ namespace fish_invader
 
 
                         // Save the modified image
-                        bmp.Save(@"otherimage\\fishpng.png", System.Drawing.Imaging.ImageFormat.Png);
+                        bmp.Save(@"fishpng.png", System.Drawing.Imaging.ImageFormat.Png);
 
 
                         //reprendre l'image après l'avoir changer
-                        using (var bmpTemp = new Bitmap("otherimage\\fishpng.png"))
+                        using (var bmpTemp = new Bitmap("fishpng.png"))
                         {
                             fishimage = new Bitmap(bmpTemp);
                         }
@@ -99,7 +99,7 @@ namespace fish_invader
 
                     if (g == Fish.touchingPngId)
                     {
-                        fishimage = Image.FromFile($"originalfish\\f{badfish.Type}sh15.png");
+                        fishimage = Image.FromFile($"images/originalfish/f{badfish.Type}sh1.png");
                         pngname = badfish.Name;
 
                         var bmp = new Bitmap(fishimage);
@@ -136,11 +136,11 @@ namespace fish_invader
 
 
                         // Save the modified image
-                        bmp.Save(@"otherimage\\fishpng.png", System.Drawing.Imaging.ImageFormat.Png);
+                        bmp.Save(@"images/otherimage/fishpng.png", System.Drawing.Imaging.ImageFormat.Png);
 
 
                         //reprendre l'image après l'avoir changer
-                        using (var bmpTemp = new Bitmap("otherimage\\fishpng.png"))
+                        using (var bmpTemp = new Bitmap("images/otherimage/fishpng.png"))
                         {
                             fishimage = new Bitmap(bmpTemp);
                         }
@@ -164,10 +164,8 @@ namespace fish_invader
 
                 drawingSpace.Graphics.DrawString(pngname, TextHelpers.drawbigFont, TextHelpers.writingBrush, 500, 350);
 
+                drawingSpace.Graphics.DrawImage(fishimage, new Rectangle(50, 375, fishimage.Width * 10, fishimage.Height * 10));
 
-                drawingSpace.Graphics.TranslateTransform(75, 400); // Déplace l'origine du dessin au centre du fish
-                drawingSpace.Graphics.DrawImage(fishimage, -fishimage.Width / 2, -fishimage.Height / 2);
-                drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
 
                 if (AirSpace.dialogNum == 1)
                 {
@@ -187,9 +185,8 @@ namespace fish_invader
 
                 drawingSpace.Graphics.DrawString(pngname, TextHelpers.drawbigFont, TextHelpers.writingBrush, 500, 20);
 
-                drawingSpace.Graphics.TranslateTransform(75, 50); // Déplace l'origine du dessin au centre du fish
-                drawingSpace.Graphics.DrawImage(fishimage, -fishimage.Width / 2, -fishimage.Height / 2);
-                drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
+
+                drawingSpace.Graphics.DrawImage(fishimage, new Rectangle(50, 25, fishimage.Width * 10, fishimage.Height * 10));
 
                 if (AirSpace.dialogNum == 1)
                 {

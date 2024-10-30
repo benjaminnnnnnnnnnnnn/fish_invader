@@ -13,9 +13,9 @@ namespace fish_invader
 {
     public partial class Event
     {
-        private Image shark1 = Image.FromFile("otherimage/shark1.png");
-        private Image shark2 = Image.FromFile("otherimage/shark2.png");
-        private Image babyshark = Image.FromFile("otherimage/babyshark.png");
+        private Image shark1 = Image.FromFile("images/otherimage/shark1.png");
+        private Image shark2 = Image.FromFile("images/otherimage/shark2.png");
+        private Image babyshark = Image.FromFile("images/otherimage/babyshark.png");
         private Image shark3;
         public int x = -200;
         public int x2 = -200;
@@ -40,7 +40,7 @@ namespace fish_invader
         private int _widthwhale;
 
 
-        private Image whale = Image.FromFile("otherimage/whale2.png");
+        private Image whale = Image.FromFile("images/otherimage/whale2.png");
 
         public Event()
         {
@@ -112,10 +112,10 @@ namespace fish_invader
 
 
                     // Save the modified image
-                    bmp.Save(@"otherimage\\babyshark1.png", System.Drawing.Imaging.ImageFormat.Png);
+                    bmp.Save(@"images/otherimage/babyshark1.png", System.Drawing.Imaging.ImageFormat.Png);
 
                     //reprendre l'image après l'avoir changer
-                    using (var bmpTemp = new Bitmap(@"otherimage\babyshark1.png"))
+                    using (var bmpTemp = new Bitmap(@"images/otherimage/babyshark1.png"))
                     {
                         shark3 = new Bitmap(bmpTemp);
                     }

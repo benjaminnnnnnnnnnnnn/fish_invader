@@ -1,4 +1,6 @@
-﻿namespace FishInvader
+﻿using System.CodeDom;
+
+namespace FishInvader
 {
     public partial class BadFish
     {
@@ -15,8 +17,8 @@
         private int _height;
         public static bool PnjTouch = false;
         public static bool ShopTouch = false;
-        public static Image PressE = Image.FromFile("PressE.png");
-        public static Image PressEdown = Image.FromFile("PressEdown.png");
+        public static Image PressE = Image.FromFile("images/PressE.png");
+        public static Image PressEdown = Image.FromFile("images/PressEdown.png");
         private int _colorR = GlobalHelpers.alea.Next(0, 256);
         private int _colorG = GlobalHelpers.alea.Next(0, 256);
         private int _colorB = GlobalHelpers.alea.Next(0, 256);
@@ -30,29 +32,8 @@
         // Constructeur
         public BadFish(int i, int x, int y)
         {
-            originalfish = Image.FromFile($"originalfish\\f{type}sh20.png");
-            helth = 20;
 
-            for (_size = 5; _size < 16; _size++)
-            {
-
-
-                if (GlobalHelpers.alea.Next(1, 3) == 2)
-                {
-                    originalfish = Image.FromFile($"originalfish\\f{type}sh" + _size + ".png");
-                    helth = _size;
-                    break;
-                }
-            }
-
-
-
-
-
-
-
-
-
+            originalfish = Image.FromFile($"images/originalfish/f{type}sh1.png");
 
 
             //if badfish is a png
@@ -109,11 +90,11 @@
             metode.SwapColor(bmp, Color.FromArgb(31, 49, 125), Color.FromArgb(GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256)));
 
             // Save the modified image
-            bmp.Save(@"fishpng\\fish" + _id + ".png", System.Drawing.Imaging.ImageFormat.Png);
+            bmp.Save(@"fish" + _id + ".png", System.Drawing.Imaging.ImageFormat.Png);
 
 
             //reprendre l'image après l'avoir changer
-            using (var bmpTemp = new Bitmap("fishpng\\fish" + _id + ".png"))
+            using (var bmpTemp = new Bitmap("fish" + _id + ".png"))
             {
                 BadFishImage = new Bitmap(bmpTemp);
             }
@@ -124,11 +105,11 @@
 
 
 
+            _size = GlobalHelpers.alea.Next(5,16);
+            _height = (BadFishImage.Height * _size);
+            _width = (BadFishImage.Width * _size);
 
-            //set image hight and width (for hitbox)
-            _height = (BadFishImage.Height / 2);
-            _width = (BadFishImage.Width / 2);
-
+            helth = _size;
 
 
             //set pos to ramdom location
@@ -159,21 +140,58 @@
         public int Size { get => _size; set => _size = value; }
 
 
-
+        bool redo;
         // Cette méthode calcule le nouvel état dans lequel le drone se trouve après
         // que 'interval' millisecondes se sont écoulées
-        public void Update()
+        public void Update(List<Projectile> projectiles, Wepon wepon)
         {
             
             if (!AirSpace.TalkingToPng)
             {
-
+                
                 if (AirSpace.eventtype == 0 && AirSpace.ramdomEvent)
                 {
                     _x += (_speed * 3);
                 }
                 else
                     _x += _speed;
+                
+                
+                do
+                {
+                    redo = false;
+                    foreach (Projectile projectile in projectiles)
+                    {
+                        if (!IsPnj && !IsShop)
+                        {
+                            if (Wepon.wepontype == 1 || Wepon.wepontype == 3 || Wepon.wepontype == 4 || Wepon.wepontype == 5 || Wepon.wepontype == 6)
+                            {
+                                if ((projectile.X - projectile.Width) <= (_x + _width) && (projectile.Y - projectile.Height) <= (_y + _height) && (projectile.X + projectile.Width) >= _x && (projectile.Y + projectile.Height) >= _y)
+                                {
+
+                                    helth -= projectile.Damage;                                    
+                                    projectiles.Remove(projectile);
+                                    redo = true;
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                if ((projectile.X - projectile.Slimewidth) <= (_x + _width) && (projectile.Y - projectile.Slimeheight) <= (_y + _height) && (projectile.X + projectile.Slimewidth) >= _x && (projectile.Y + projectile.Slimeheight) >= _y)
+                                {
+
+                                    helth -= projectile.Damage;
+
+                                    projectiles.Remove(projectile);
+                                    redo = true;
+                                    break;
+                                }
+                            }
+
+
+                        }
+                    }
+                } while (redo);
 
 
 
@@ -197,7 +215,7 @@
                             _name = metode.RandomName();
                             _speed = GlobalHelpers.alea.Next(1, 3);
                         }
-                        else if ((GlobalHelpers.alea.Next(0, 25)) == 0)
+                        else if ((GlobalHelpers.alea.Next(0, 10)) == 0)
                         {
                             _IsPnj = false;
                             _isShop = true;
@@ -213,24 +231,14 @@
                         }
 
 
-                        originalfish = Image.FromFile($"originalfish\\f{type}sh20.png");
-                        helth = 20;
-                        //changer la taile du poison
-                        type = GlobalHelpers.alea.Next(1, 20);
-                        for (_size = 5; _size < 16; _size++)
-                        {
-                            if (GlobalHelpers.alea.Next(1, 4) == 2)
-                            {
-                                originalfish = Image.FromFile($"originalfish\\f{type}sh" + _size + ".png");
-                                helth = _size;
-                                break;
-                            }
+                        originalfish = Image.FromFile($"images/originalfish/f{type}sh1.png");
+                       
 
-                        }
 
-                        _height = (originalfish.Height / 2);
-                        _width = (originalfish.Width / 2);
-
+                        _size = GlobalHelpers.alea.Next(5,16);
+                        _height = (originalfish.Height * _size);
+                        _width = (originalfish.Width * _size);
+                        helth = _size;
 
                         if (type == 14)
                             _y = 600 - _height;
@@ -238,7 +246,7 @@
                             _y = GlobalHelpers.alea.Next(380, 600);
                         else
                             _y = GlobalHelpers.alea.Next(0, 600);
-                        _x = -100;
+                        _x = -200;
 
                         //changer l'image du poisson
                         // Load the bitmap
@@ -283,11 +291,11 @@
                         metode.SwapColor(bmp, Color.FromArgb(31, 49, 125), Color.FromArgb(GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256), GlobalHelpers.alea.Next(0, 256)));
 
                         // Save the modified image
-                        bmp.Save(@"fishpng\\fish" + _id + ".png", System.Drawing.Imaging.ImageFormat.Png);
+                        bmp.Save(@"fish" + _id + ".png", System.Drawing.Imaging.ImageFormat.Png);
 
 
                         //reprendre l'image après l'avoir changer
-                        using (var bmpTemp = new Bitmap("fishpng\\fish" + _id + ".png"))
+                        using (var bmpTemp = new Bitmap("fish" + _id + ".png"))
                         {
                             BadFishImage = new Bitmap(bmpTemp);
                         }

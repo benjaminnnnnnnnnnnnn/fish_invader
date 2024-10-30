@@ -22,7 +22,7 @@ namespace FishInvader
             string line;
             int i = 0;
 
-            StreamReader sr = new StreamReader("first-names.txt");
+            StreamReader sr = new StreamReader("images/first-names.txt");
             string[] Names = new string[4946];
 
             line = sr.ReadLine();

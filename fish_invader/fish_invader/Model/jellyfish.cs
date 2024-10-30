@@ -1,4 +1,6 @@
-﻿namespace FishInvader
+﻿using System.Windows.Forms;
+
+namespace FishInvader
 {
     public partial class Jellyfish
     {
@@ -11,12 +13,14 @@
         private string _name;
         private int _speed;
         private bool _IsPnj = false;
+        private bool _isShop = false;
         private int _id;
         private int _width;
         private int _height;
         public static bool PnjTouch = false;
-        public static Image PressE = Image.FromFile("PressE.png");
-        public static Image PressEdown = Image.FromFile("PressEdown.png");
+        public static bool ShopTouch = false;
+        public static Image PressE = Image.FromFile("images/PressE.png");
+        public static Image PressEdown = Image.FromFile("images/PressEdown.png");
         private double _colorR = GlobalHelpers.alea.Next(0, 256);
         private double _colorG = GlobalHelpers.alea.Next(0, 256);
         private double _colorB = GlobalHelpers.alea.Next(0, 256);
@@ -33,21 +37,10 @@
         // Constructeur
         public Jellyfish(int i, int x, int y)
         {
-            Jellyfishfilepath = $"originalfish\\jellyf1sh20.png";
-            Jellyfishfilepath2 = $"originalfish\\jellyf2sh20.png";
-
-            for (_size = 1; _size < 5; _size++)
-            {
+            Jellyfishfilepath = $"images/originalfish/jellyf1sh1.png";
+            Jellyfishfilepath2 = $"images/originalfish/jellyf2sh1.png";
 
 
-                if (GlobalHelpers.alea.Next(1, 3) == 2)
-                {
-                    Jellyfishfilepath = $"originalfish\\jellyf1sh{_size}.png";
-                    Jellyfishfilepath2 = $"originalfish\\jellyf2sh{_size}.png";
-                    _helth = _size;
-                    break;
-                }
-            }
             originaljellyfish = Image.FromFile(Jellyfishfilepath);
             originaljellyfish2 = Image.FromFile(Jellyfishfilepath2);
 
@@ -64,6 +57,12 @@
             if ((GlobalHelpers.alea.Next(0, 25)) == 0)
             {
                 _IsPnj = true;
+                _name = metode.RandomName();
+                _speed = GlobalHelpers.alea.Next(10, 14);
+            }
+            else if ((GlobalHelpers.alea.Next(0, 25)) == 0)
+            {
+                _isShop = true;
                 _name = metode.RandomName();
                 _speed = GlobalHelpers.alea.Next(10, 14);
             }
@@ -87,11 +86,11 @@
             metode.SwapColor(bmp, Color.FromArgb(50, 173, 186), Color.FromArgb(Convert.ToInt32(_colorR / 4.14), Convert.ToInt32(_colorG / 1.4734), Convert.ToInt32(_colorB / 1.3672)));
 
             // Save the modified image
-            bmp.Save(@"fishpng\\fish" + _id + ".png", System.Drawing.Imaging.ImageFormat.Png);
+            bmp.Save(@"fish" + _id + ".png", System.Drawing.Imaging.ImageFormat.Png);
 
 
             //reprendre l'image après l'avoir changer
-            using (var bmpTemp = new Bitmap("fishpng\\fish" + _id + ".png"))
+            using (var bmpTemp = new Bitmap("fish" + _id + ".png"))
             {
                 JellyFishImage = new Bitmap(bmpTemp);
             }
@@ -109,11 +108,11 @@
             metode.SwapColor(bmp, Color.FromArgb(50, 173, 186), Color.FromArgb(Convert.ToInt32(_colorR / 4.14), Convert.ToInt32(_colorG / 1.4734), Convert.ToInt32(_colorB / 1.3672)));
 
             // Save the modified image
-            bmp.Save(@"fishpng\\f2sh" + _id + ".png", System.Drawing.Imaging.ImageFormat.Png);
+            bmp.Save(@"f2sh" + _id + ".png", System.Drawing.Imaging.ImageFormat.Png);
 
 
             //reprendre l'image après l'avoir changer
-            using (var bmpTemp = new Bitmap("fishpng\\f2sh" + _id + ".png"))
+            using (var bmpTemp = new Bitmap("f2sh" + _id + ".png"))
             {
                 JellyFishImage2 = new Bitmap(bmpTemp);
             }
@@ -125,9 +124,11 @@
 
 
             //set image hight and width (for hitbox)
-            _height = (JellyFishImage2.Height / 2);
-            _width = (JellyFishImage2.Width / 2);
+            _size = GlobalHelpers.alea.Next(5, 16);
+            _height = (JellyFishImage.Height * _size);
+            _width = (JellyFishImage.Width * _size);
 
+            _helth = _size;
 
 
             //set pos to ramdom location
@@ -155,102 +156,102 @@
         public int Helth { get => _helth; set => _helth = value; }
         public int Id { get => _id; set => _id = value; }
         public int Size { get => _size; set => _size = value; }
+        public bool IsShop { get => _isShop; set => _isShop = value; }
 
         private int v = 0;
         int s = 0;
+        bool redo;
         // Cette méthode calcule le nouvel état dans lequel le drone se trouve après
         // que 'interval' millisecondes se sont écoulées
-        public void Update()
+        public void Update(List<Projectile> projectiles, Wepon wepon)
         {
             if (!AirSpace.TalkingToPng)
             {
-                if (AirSpace.eventtype == 0 && AirSpace.ramdomEvent)
+
+
+
+                if (_stage <= _speed)
                 {
-                    if (_stage <= (_speed * 2))
+                    _stage++;
+
+                    if (v == 0)
                     {
-                        _stage++;
-
-                        if (v == 0)
-                        {
-                            v++;
-                        }
-
-
-
+                        v++;
                     }
-                    else if (_stage == (_speed * 2))
-                    {
-                        _stage++;
-                        _y--;
-                    }
-                    else if (_stage > (_speed * 2))
-                    {
-                        if (v == 1)
-                        {
-                            v--;
-                        }
-
-                        _y -= ((_speed * 2) + _speed - _stage);
 
 
-                        if ((_stage - (_speed)) <= s)
-                        {
-                            s = 0;
-                            _stage++;
-                        }
 
-                        s++;
-
-                        if ((_speed + (_speed * 2)) <= _stage)
-                            _stage = (0 - (_speed * 2));
-                    }
                 }
-                else
+                else if (_stage == _speed)
                 {
-                    if (_stage <= _speed)
+                    _stage++;
+                    _y--;
+                }
+                else if (_stage > _speed)
+                {
+                    if (v == 1)
                     {
+                        v--;
+                    }
+
+                    _y -= (_speed + _speed - _stage);
+
+
+                    if ((_stage - _speed) <= s)
+                    {
+                        s = 0;
                         _stage++;
-
-                        if (v == 0)
-                        {
-                            v++;
-                        }
-
-
-
                     }
-                    else if (_stage == _speed)
-                    {
-                        _stage++;
-                        _y--;
-                    }
-                    else if (_stage > _speed)
-                    {
-                        if (v == 1)
-                        {
-                            v--;
-                        }
 
-                        _y -= (_speed + _speed - _stage);
+                    s++;
 
-
-                        if ((_stage - _speed) <= s)
-                        {
-                            s = 0;
-                            _stage++;
-                        }
-
-                        s++;
-
-                        if ((_speed + _speed) <= _stage)
-                            _stage = (0 - _speed);
-                    }
+                    if ((_speed + _speed) <= _stage)
+                        _stage = (0 - _speed);
                 }
 
 
 
 
-                if (_y <= -100)
+
+
+                do
+                {
+                    redo = false;
+                    foreach (Projectile projectile in projectiles)
+                    {
+                        if (!IsPnj && !IsShop)
+                        {
+
+                            if (Wepon.wepontype == 1 || Wepon.wepontype == 3 || Wepon.wepontype == 4 || Wepon.wepontype == 5 || Wepon.wepontype == 6)
+                            {
+                                if ((projectile.X - (projectile.Width / 2)) <= (_x + _width) && (projectile.Y - (projectile.Height / 2)) <= (_y + _height) && (projectile.X + (projectile.Width / 2)) >= _x && (projectile.Y + (projectile.Height / 2)) >= _y)
+                                {
+
+                                    Helth -= projectile.Damage;
+                                    projectiles.Remove(projectile);
+                                    redo = true;
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                if ((projectile.X - projectile.Slimewidth) <= (_x + _width) && (projectile.Y - projectile.Slimeheight) <= (_y + _height) && (projectile.X + projectile.Slimewidth) >= _x && (projectile.Y + projectile.Slimeheight) >= _y)
+                                {
+
+                                    Helth -= projectile.Damage;
+
+                                    projectiles.Remove(projectile);
+                                    redo = true;
+                                    break;
+                                }
+                            }
+
+                        }
+                    }
+
+                } while (redo);
+
+                if (_y <= -200)
                 {
                     if (AirSpace.eventtype == 0 && AirSpace.ramdomEvent && AirSpace.EventTime > 1000)
                     {
@@ -262,12 +263,21 @@
                         //is png
                         if ((GlobalHelpers.alea.Next(0, 25)) == 0)
                         {
+                            _isShop = false;
                             _IsPnj = true;
+                            _name = metode.RandomName();
+                            _speed = GlobalHelpers.alea.Next(10, 14);
+                        }
+                        else if ((GlobalHelpers.alea.Next(0, 20)) == 0)
+                        {
+                            _IsPnj = false;
+                            _isShop = true;
                             _name = metode.RandomName();
                             _speed = GlobalHelpers.alea.Next(10, 14);
                         }
                         else
                         {
+                            _isShop = false;
                             _IsPnj = false;
                             _name = "";
                             _speed = GlobalHelpers.alea.Next(10, 14);
@@ -277,20 +287,10 @@
                         _stage = 0 - _speed;
 
                         //changer la taile du jellyfish
-                        for (_size = 5; _size < 16; _size++)
-                        {
-                            if (GlobalHelpers.alea.Next(1, 4) == 2)
-                            {
-                                originaljellyfish = Image.FromFile($"originalfish\\jellyf1sh" + _size + ".png");
-                                originaljellyfish2 = Image.FromFile($"originalfish\\jellyf2sh" + _size + ".png");
-                                _helth = _size;
-                                break;
-                            }
-
-                        }
-
-                        _height = (originaljellyfish.Height / 2);
-                        _width = (originaljellyfish.Width / 2);
+                        _size = GlobalHelpers.alea.Next(5, 16);
+                        _height = (JellyFishImage.Height * _size);
+                        _width = (JellyFishImage.Width * _size);
+                        _helth = _size;
 
 
 
@@ -315,11 +315,11 @@
                         metode.SwapColor(bmp, Color.FromArgb(50, 173, 186), Color.FromArgb(Convert.ToInt32(_colorR / 4.14), Convert.ToInt32(_colorG / 1.4734), Convert.ToInt32(_colorB / 1.3672)));
 
                         // Save the modified image
-                        bmp.Save(@"fishpng\\fish" + _id + ".png", System.Drawing.Imaging.ImageFormat.Png);
+                        bmp.Save(@"fish" + _id + ".png", System.Drawing.Imaging.ImageFormat.Png);
 
 
                         //reprendre l'image après l'avoir changer
-                        using (var bmpTemp = new Bitmap("fishpng\\fish" + _id + ".png"))
+                        using (var bmpTemp = new Bitmap("fish" + _id + ".png"))
                         {
                             JellyFishImage = new Bitmap(bmpTemp);
                         }
@@ -334,11 +334,11 @@
                         metode.SwapColor(bmp, Color.FromArgb(50, 173, 186), Color.FromArgb(Convert.ToInt32(_colorR / 4.14), Convert.ToInt32(_colorG / 1.4734), Convert.ToInt32(_colorB / 1.3672)));
 
                         // Save the modified image
-                        bmp.Save(@"fishpng\\f2sh" + _id + ".png", System.Drawing.Imaging.ImageFormat.Png);
+                        bmp.Save(@"f2sh" + _id + ".png", System.Drawing.Imaging.ImageFormat.Png);
 
 
                         //reprendre l'image après l'avoir changer
-                        using (var bmpTemp = new Bitmap("fishpng\\f2sh" + _id + ".png"))
+                        using (var bmpTemp = new Bitmap("f2sh" + _id + ".png"))
                         {
                             JellyFishImage2 = new Bitmap(bmpTemp);
                         }
@@ -349,10 +349,11 @@
 
                 }
             }
-
         }
 
-
-
     }
+
+
+
+
 }

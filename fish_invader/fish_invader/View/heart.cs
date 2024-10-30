@@ -12,7 +12,7 @@ namespace FishInvader
         private int _y;
         private int _height;
         private int _width;
-        private int _amount = 5;
+        private int _amount = 25;
 
         public Image HeartImage { get; private set; }
         public int X { get => _x; set => _x = value; }
@@ -25,7 +25,7 @@ namespace FishInvader
         {
             _height = GlobalHelpers.alea.Next(1,15);
 
-            HeartImage = Image.FromFile("otherimage\\heart.png");
+            HeartImage = Image.FromFile("images/otherimage/heart.png");
 
             _height = (HeartImage.Height /2);
             _width = (HeartImage.Width /2);

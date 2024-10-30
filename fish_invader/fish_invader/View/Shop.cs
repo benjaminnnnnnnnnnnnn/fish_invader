@@ -26,6 +26,7 @@ namespace fish_invader
         private int colorB;
         private string pngname;
 
+
         private double doucolorR;
         private double doucolorG;
         private double doucolorB;
@@ -36,16 +37,16 @@ namespace fish_invader
 
         private Image[,] images = new Image[3, 5] 
             {
-            {Image.FromFile("otherimage\\gun.png"), Image.FromFile("otherimage\\missing_texture.png"), Image.FromFile("otherimage\\missing_texture.png"), Image.FromFile("otherimage\\missing_texture.png"),Image.FromFile("otherimage\\missing_texture.png")},
-            {Image.FromFile("otherimage\\missing_texture.png"), Image.FromFile("otherimage\\missing_texture.png"), Image.FromFile("otherimage\\missing_texture.png"), Image.FromFile("otherimage\\missing_texture.png"), Image.FromFile("otherimage\\missing_texture.png")},
-            {Image.FromFile("otherimage\\missing_texture.png"), Image.FromFile("otherimage\\missing_texture.png"), Image.FromFile("otherimage\\missing_texture.png"), Image.FromFile("otherimage\\missing_texture.png"), Image.FromFile("otherimage\\missing_texture.png")},
+            {Image.FromFile("images/otherimage/gun.png"), Image.FromFile("images/otherimage/usi.png"), Image.FromFile("images/otherimage/potion.png"), Image.FromFile("images/otherimage/shotgun.png"),Image.FromFile("images/otherimage/scar.png")},
+            {Image.FromFile("images/otherimage/minigun.png"), Image.FromFile("images/otherimage/sniper.png"), Image.FromFile("images/otherimage/turet.png"), Image.FromFile("images/otherimage/kelp.png"), Image.FromFile("images/otherimage/missing_texture.png")},
+            {Image.FromFile("images/otherimage/missing_texture.png"), Image.FromFile("images/otherimage/missing_texture.png"), Image.FromFile("images/otherimage/missing_texture.png"), Image.FromFile("images/otherimage/missing_texture.png"), Image.FromFile("images/otherimage/trophe.png")},
             };
 
         public int[,] price = new int[3, 5]
         {
-            {1,0,0,0,0},
-            {0,0,0,0,0},
-            {0,0,0,0,0}, 
+            {10,27,15,34,60},
+            {100,140,35,15,0},
+            {0,0,0,0,1000},
         };
 
 
@@ -55,7 +56,7 @@ namespace fish_invader
 
             //load fish image
             g = 0;
-            if (Jellyfish.PnjTouch)
+            if (Jellyfish.ShopTouch)
             {
                 foreach (Jellyfish jellyfish in jellyfleet)
                 {
@@ -63,7 +64,7 @@ namespace fish_invader
 
                     if (g == Fish.touchingjellyPngId)
                     {
-                        fishimage = Image.FromFile($"originalfish\\jellyf1sh7.png");
+                        fishimage = Image.FromFile($"images/originalfish/jellyf1sh1.png");
                         pngname = jellyfish.Name;
 
                         var bmp = new Bitmap(fishimage);
@@ -83,11 +84,11 @@ namespace fish_invader
 
 
                         // Save the modified image
-                        bmp.Save(@"otherimage\\fishpng.png", System.Drawing.Imaging.ImageFormat.Png);
+                        bmp.Save(@"images/otherimage/fishpng.png", System.Drawing.Imaging.ImageFormat.Png);
 
 
                         //reprendre l'image après l'avoir changer
-                        using (var bmpTemp = new Bitmap("otherimage\\fishpng.png"))
+                        using (var bmpTemp = new Bitmap("images/otherimage/fishpng.png"))
                         {
                             fishimage = new Bitmap(bmpTemp);
                         }
@@ -107,7 +108,7 @@ namespace fish_invader
 
                     if (g == Fish.touchingPngId)
                     {
-                        fishimage = Image.FromFile($"originalfish\\f{badfish.Type}sh7.png");
+                        fishimage = Image.FromFile($"images/originalfish/f{badfish.Type}sh1.png");
                         pngname = badfish.Name;
 
                         var bmp = new Bitmap(fishimage);
@@ -144,11 +145,11 @@ namespace fish_invader
 
 
                         // Save the modified image
-                        bmp.Save(@"otherimage\\fishpng.png", System.Drawing.Imaging.ImageFormat.Png);
+                        bmp.Save(@"images/otherimage/fishpng.png", System.Drawing.Imaging.ImageFormat.Png);
 
 
                         //reprendre l'image après l'avoir changer
-                        using (var bmpTemp = new Bitmap("otherimage\\fishpng.png"))
+                        using (var bmpTemp = new Bitmap("images/otherimage/fishpng.png"))
                         {
                             fishimage = new Bitmap(bmpTemp);
                         }
@@ -176,9 +177,10 @@ namespace fish_invader
                 drawingSpace.Graphics.DrawString(pngname + "'s Shop", TextHelpers.drawbigFont, TextHelpers.writingBrush, 500, 30);
                 drawingSpace.Graphics.DrawString(fish.Gold.ToString() + " Golds", TextHelpers.drawbigFont, TextHelpers.writingBrushGold, 1020, 30);
 
-                drawingSpace.Graphics.TranslateTransform(100, 50); // Déplace l'origine du dessin au centre du fish
-                drawingSpace.Graphics.DrawImage(fishimage, -fishimage.Width / 2, -fishimage.Height / 2);
-                drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
+
+                drawingSpace.Graphics.DrawImage(fishimage, new Rectangle(50, 25, fishimage.Width * 10, fishimage.Height * 10));
+
+
 
                 for (int c = 0; c <= 2; c++)
                 {

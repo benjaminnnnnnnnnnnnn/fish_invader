@@ -1,8 +1,0 @@
-fish invador (rpg) :
-
-tu est un poisson et tu peut attaquer d'autre poisson ou faire des quete qu'il te demande.
-
-il y a un poisson marchant
-
-le but du jeu c'est de survie le plus longtemps possible
-
