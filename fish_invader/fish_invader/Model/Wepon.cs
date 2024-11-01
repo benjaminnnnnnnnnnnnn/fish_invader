@@ -15,7 +15,7 @@ namespace FishInvader
         private int _height;
         private int _width;
         private int _damage;
-        public static int wepontype = 6;
+        public static int wepontype = 0;
 
         public Image WeponImage { get; private set; }
         public Image WeponImageGun { get; private set; }
@@ -44,7 +44,7 @@ namespace FishInvader
             WeponImageSniper = Image.FromFile("images/otherimage/sniper.png");
             WeponImageTuret = Image.FromFile("images/otherimage/turet.png");
             WeponImageKelp = Image.FromFile("images/otherimage/kelp.png");
-            _damage = 150;
+            _damage = 6;
 
             _height = (WeponImage.Height / 2);
             _width = (WeponImage.Width / 2);
