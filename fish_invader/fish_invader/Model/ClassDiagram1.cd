@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="FishInvader.BadFish">
+    <Position X="14" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCIAAoBASAgAAECkNAAEQBBBAFBACARZBAgAIAYAA=</HashCode>
+      <FileName>Model\BadFish.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FishInvader.Fish">
+    <Position X="12.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAIAAIBASAAAAEAhCAAETRBBAAAAgAARAAAACAYAE=</HashCode>
+      <FileName>Model\Fish.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FishInvader.Jellyfish">
+    <Position X="15.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCIAAoBASCgAAEGEFBAEQBBBAEBACARLAAgAJQaAA=</HashCode>
+      <FileName>Model\jellyfish.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="fish_invader.Event">
+    <Position X="17" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgIAAwAAAAUBAYEIAsABwEAAQAABEAAABZAATAAABE=</HashCode>
+      <FileName>View\Event.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FishInvader.Gold">
+    <Position X="18.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIBASEAAAAAAAAAECAABAAAAAAABBAAAEAcAA=</HashCode>
+      <FileName>View\Gold.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FishInvader.Heart">
+    <Position X="18.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIBASAAAAAAAAAAECAABAAAAAAABBAAAEAYAA=</HashCode>
+      <FileName>View\heart.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FishInvader.Kelp">
+    <Position X="20" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIBASAAAAAAAAAAGAAABAAAAAAABAAAAIAYAA=</HashCode>
+      <FileName>View\kelp.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FishInvader.Projectile">
+    <Position X="11" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAQAIADIBASAABAAAAAAgMBFABAAAAEAABAIAAAAYAA=</HashCode>
+      <FileName>View\Projectile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="fish_invader.Quest">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAEAAAAAAAAAABBAIBAIGIABAAAAAAAAQ=</HashCode>
+      <FileName>View\quest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FishInvader.Robot">
+    <Position X="6.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEQAAAAIAASAICIBAABAAQAAABAAAAAIQJAAAAAAAAA=</HashCode>
+      <FileName>View\Robot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="fish_invader.Shop">
+    <Position X="20" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIABAAAAAAAAEAAAAAAAAAABFAABAIHIABAAAAAAAEQ=</HashCode>
+      <FileName>View\Shop.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FishInvader.turet">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAIIASAAAAAAAAAAAAAABAAAAAAgBAAAAAAAAA=</HashCode>
+      <FileName>View\turet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FishInvader.Wepon">
+    <Position X="8" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAHIBATIAAAAAEAAAEAAADAEAAgAQBAEAAgEYAA=</HashCode>
+      <FileName>Model\Wepon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
