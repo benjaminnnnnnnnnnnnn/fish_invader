@@ -75,11 +75,14 @@ namespace FishInvader
                 g++;
                 if (h == g)
                 {
-                    gold.LockedID = _id;
 
-                    if (s == 0)
+
+                        gold.LockedID = _id;
+
+                    if (s == 0 || gold.X != direction[0, (direction.Length / 2 - 1)] && gold.Y != direction[1, (direction.Length / 2 - 1)])
                     {
                         direction = metode.DDALine(_x, _y, gold.X, gold.Y);
+                        s = 0;
                     }
 
                     _x = direction[0, s];
