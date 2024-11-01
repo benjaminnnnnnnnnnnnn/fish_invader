@@ -1,10 +1,13 @@
 using fish_invader;
+using FishInvader.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
 using System.Security.Cryptography;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
+
 
 namespace FishInvader
 {
@@ -26,6 +29,7 @@ namespace FishInvader
         private List<Gold> golds = new List<Gold>();
         private List<Heart> hearts = new List<Heart>();
         private List<turet> turets = new List<turet>();
+        private List<Robot> robots = new List<Robot>();
         Wepon wepon = new Wepon();
         private List<Jellyfish> jellyfleet;
         Fish fish = new Fish(AirSpace.WIDTH / 2, AirSpace.HEIGHT / 2, "Fish");
@@ -43,6 +47,7 @@ namespace FishInvader
         public static int dialogNum = 0;
 
         private bool won = false;
+        private bool loss = false;
 
         // Variables pour les mouvements
         private bool moveUp, moveDown, moveLeft, moveRight;
@@ -63,7 +68,6 @@ namespace FishInvader
 
             kelps.Add(new Kelp(GlobalHelpers.alea.Next(0, 1200), GlobalHelpers.alea.Next(0, 600), GlobalHelpers.alea.Next(3, 7)));
             kelps.Add(new Kelp(GlobalHelpers.alea.Next(0, 1200), GlobalHelpers.alea.Next(0, 600), GlobalHelpers.alea.Next(3, 7)));
-
 
             // Gets a reference to the current BufferedGraphicsContext
             currentContext = BufferedGraphicsManager.Current;
@@ -92,6 +96,7 @@ namespace FishInvader
 
         public static bool reloding = false;
         int r = 0;
+        int w = 0;
         int f = 0;
         public static int progectilcapacity = 12;
         private int lastwepontype;
@@ -280,10 +285,17 @@ namespace FishInvader
                     {
                         fish.Gold -= shop.price[2, 4];
 
-                        TalkingToPng= false;
+                        TalkingToPng = false;
                         won = true;
                         badfleet.Clear();
                         jellyfleet.Clear();
+                    }
+                    else if (shop.selectionX == 4 && shop.selectionY == 1 && fish.Gold >= shop.price[1, 4])
+                    {
+                        fish.Gold -= shop.price[1, 4];
+                        robots.Add(new Robot(fish.X, fish.Y, w));
+                        w++;
+                        TalkingToPng = false;
                     }
 
                 }
@@ -351,7 +363,7 @@ namespace FishInvader
                     {
                         if (progectilcapacity >= 1)
                         {
-                            projectiles.Add(new Projectile(fish.X, fish.Y,wepon.Damage, 1, fish));
+                            projectiles.Add(new Projectile(fish.X, fish.Y, wepon.Damage, 1, fish));
                             progectilcapacity--;
                         }
                     }
@@ -359,7 +371,7 @@ namespace FishInvader
                     {
                         if (progectilcapacity >= 1)
                         {
-                            projectiles.Add(new Projectile(fish.X, fish.Y,wepon.Damage,2, fish));
+                            projectiles.Add(new Projectile(fish.X, fish.Y, wepon.Damage, 2, fish));
                             progectilcapacity--;
                         }
                     }
@@ -367,8 +379,8 @@ namespace FishInvader
                     {
                         if (progectilcapacity >= 1)
                         {
-                            for (int k = 0; k <= GlobalHelpers.alea.Next(15,35); k++)
-                                projectiles.Add(new Projectile(fish.X, fish.Y, wepon.Damage,3, fish));
+                            for (int k = 0; k <= GlobalHelpers.alea.Next(15, 35); k++)
+                                projectiles.Add(new Projectile(fish.X, fish.Y, wepon.Damage, 3, fish));
                             progectilcapacity--;
                             f++;
                         }
@@ -377,7 +389,7 @@ namespace FishInvader
                     {
                         if (progectilcapacity >= 1)
                         {
-                            projectiles.Add(new Projectile(fish.X, fish.Y, wepon.Damage,4, fish));
+                            projectiles.Add(new Projectile(fish.X, fish.Y, wepon.Damage, 4, fish));
                             progectilcapacity--;
                         }
                     }
@@ -385,7 +397,7 @@ namespace FishInvader
                     {
                         if (progectilcapacity >= 1)
                         {
-                            projectiles.Add(new Projectile(fish.X, fish.Y, wepon.Damage,5, fish));
+                            projectiles.Add(new Projectile(fish.X, fish.Y, wepon.Damage, 5, fish));
                             progectilcapacity--;
                         }
                     }
@@ -393,13 +405,13 @@ namespace FishInvader
                     {
                         if (progectilcapacity >= 1)
                         {
-                            projectiles.Add(new Projectile(fish.X, fish.Y, wepon.Damage,6, fish));
+                            projectiles.Add(new Projectile(fish.X, fish.Y, wepon.Damage, 6, fish));
                             progectilcapacity--;
                         }
                     }
                     else if (Wepon.wepontype == 7)
                     {
-                        turets.Add(new turet(fish.X,fish.Y));
+                        turets.Add(new turet(fish.X, fish.Y));
 
                         if (lastwepontype == 1)
                         {
@@ -503,33 +515,40 @@ namespace FishInvader
                     if (eventtype == 0 && AirSpace.EventTime >= 1000 && ramdomEvent)
                     {
 
-
-                        if ((Event.x - Event.Widths1) <= (wepon.X + wepon.Width) && (200 - Event.Heights1) <= (wepon.Y + wepon.Height) && (Event.x + Event.Widths1) >= (wepon.X - wepon.Width) && (200 + Event.Heights1) >= (wepon.Y - wepon.Height) && Event.Health1 > 0)
+                        if (Wepon.wepontype == 0)
                         {
-                            Event.Health1 -= wepon.Damage;
-                            Console.WriteLine("shark 1 health : " + Event.Health1);
+                            if ((Event.x - Event.Widths1) <= (wepon.X + wepon.Width) && (200 - Event.Heights1) <= (wepon.Y + wepon.Height) && (Event.x + Event.Widths1) >= (wepon.X - wepon.Width) && (200 + Event.Heights1) >= (wepon.Y - wepon.Height) && Event.Health1 > 0)
+                            {
+                                Event.Health1 -= wepon.Damage;
+                                Console.WriteLine("shark 1 health : " + Event.Health1);
 
+                            }
+
+
+                            if ((Event.x2 - Event.Widths2) <= (wepon.X + wepon.Width) && (400 - Event.Heights2) <= (wepon.Y + wepon.Height) && (Event.x2 + Event.Widths2) >= (wepon.X - wepon.Width) && (400 + Event.Heights2) >= (wepon.Y - wepon.Height) && Event.Health2 > 0)
+                            {
+                                Event.Health2 -= wepon.Damage;
+                                Console.WriteLine("shark 2 health : " + Event.Health2);
+
+                            }
+
+                            if ((Event.x3 - Event.Widths3) <= (wepon.X + wepon.Width) && (475 - Event.Heights3) <= (wepon.Y + wepon.Height) && (Event.x3 + Event.Widths3) >= (wepon.X - wepon.Width) && (475 + Event.Heights3) >= (wepon.Y - wepon.Height) && Event.Health3 > 0)
+                            {
+                                Event.Health3 -= wepon.Damage;
+                                Console.WriteLine("shark 3 health : " + Event.Health3);
+
+                            }
                         }
 
-
-                        if ((Event.x2 - Event.Widths2) <= (wepon.X + wepon.Width) && (400 - Event.Heights2) <= (wepon.Y + wepon.Height) && (Event.x2 + Event.Widths2) >= (wepon.X - wepon.Width) && (400 + Event.Heights2) >= (wepon.Y - wepon.Height) && Event.Health2 > 0)
-                        {
-                            Event.Health2 -= wepon.Damage;
-                            Console.WriteLine("shark 2 health : " + Event.Health2);
-
-                        }
-
-                        if ((Event.x3 - Event.Widths3) <= (wepon.X + wepon.Width) && (475 - Event.Heights3) <= (wepon.Y + wepon.Height) && (Event.x3 + Event.Widths3) >= (wepon.X - wepon.Width) && (475 + Event.Heights3) >= (wepon.Y - wepon.Height) && Event.Health3 > 0)
-                        {
-                            Event.Health3 -= wepon.Damage;
-                            Console.WriteLine("shark 3 health : " + Event.Health3);
-
-                        }
 
 
                     }
                 }
 
+                if (loss && j > 120)
+                {
+                    Environment.Exit(0);
+                }
 
 
 
@@ -573,283 +592,344 @@ namespace FishInvader
         int z = 0;
         int h = 0;
         int i;
+        int j = 0;
+        bool redo;
         private void Update(int interval)
         {
-            if (f > 0)
-                f++;
-
-            if (f >= 100)
-                f = 0;
-
-            if (h == 5)
-                h = 0;
-            if (Wepon.wepontype != 0 && Wepon.wepontype != 3 && !reloding && Wepon.hiting && h == 0 && !Fish.isportected)
+            if (!loss)
             {
-                if (progectilcapacity >= 1 && Wepon.wepontype == 2  || Wepon.wepontype == 5 && progectilcapacity >= 1)
+
+                if (f > 0)
+                    f++;
+
+                if (f >= 100)
+                    f = 0;
+
+                if (h == 5)
+                    h = 0;
+                if (Wepon.wepontype != 0 && Wepon.wepontype != 3 && !reloding && Wepon.hiting && h == 0 && !Fish.isportected)
                 {
-                    projectiles.Add(new Projectile(fish.X, fish.Y, wepon.Damage, Wepon.wepontype, fish));
-                    progectilcapacity--;
-                }
-                else if (Wepon.wepontype == 4 && h % 2 == 0 && progectilcapacity >= 1)
-                {
-                    projectiles.Add(new Projectile(fish.X, fish.Y, wepon.Damage,Wepon.wepontype, fish));
-                    progectilcapacity--;
-                }
-                h++;
-            }
-
-            if (h != 0)
-                h++;
-
-            fish.Update(moveUp, moveDown, moveLeft, moveRight, MOVE_SPEED, badfleet, Event, jellyfleet, hearts, golds, kelps);
-
-            if (fish.helth <= 0)
-                Environment.Exit(0);
-
-            if (progectilcapacity == 0)
-                reloding = true;
-
-
-            foreach (BadFish badfish in badfleet)
-            {
-                badfish.Update(projectiles,wepon);
-
-                if (badfish.helth <= 0)
-                {
-                    badfleet.Remove(badfish);
-                    golds.Add(new Gold((badfish.X + (badfish.Width / 2)), (badfish.Y + (badfish.Height / 2)), badfish.Size));
-                    badfleet.Add(new BadFish(badfish.Id, 1300, 0));
-                    if (DoingQuest && QuestType == 1)
+                    if (progectilcapacity >= 1 && Wepon.wepontype == 2 || Wepon.wepontype == 5 && progectilcapacity >= 1)
                     {
-                        Quest.numberoffish++;
-                        Console.WriteLine("number of fish killed : " + Quest.numberoffish);
+                        projectiles.Add(new Projectile(fish.X, fish.Y, wepon.Damage, Wepon.wepontype, fish));
+                        progectilcapacity--;
                     }
-                    if (DoingQuest && QuestType == 2 && badfish.Type == 14)
+                    else if (Wepon.wepontype == 4 && h % 2 == 0 && progectilcapacity >= 1)
                     {
-                        Quest.numberoffish++;
+                        projectiles.Add(new Projectile(fish.X, fish.Y, wepon.Damage, Wepon.wepontype, fish));
+                        progectilcapacity--;
                     }
-                    if (DoingQuest && QuestType == 3 && badfish.Size >= 13)
-                    {
-                        Quest.numberoffish++;
-                    }
-
-                    break;
+                    h++;
                 }
-            }
 
-            foreach (Jellyfish jellyfish in jellyfleet)
-            {
-                jellyfish.Update(projectiles,wepon);
+                if (h != 0)
+                    h++;
 
-                if (jellyfish.Helth <= 0)
+                fish.Update(moveUp, moveDown, moveLeft, moveRight, MOVE_SPEED, badfleet, Event, jellyfleet, hearts, golds, kelps);
+
+                if (fish.helth <= 0)
                 {
-                    jellyfleet.Remove(jellyfish);
-                    golds.Add(new Gold((jellyfish.X + (jellyfish.Width / 2)), (jellyfish.Y + (jellyfish.Height / 2)), jellyfish.Size));
-                    jellyfleet.Add(new Jellyfish(jellyfish.Id, 0, -100));
-                    if (DoingQuest && QuestType == 3 && jellyfish.Size >= 13)
-                    {
-                        Quest.numberoffish++;
-                    }
-                    break;
+                    fish.helth = 0;
+                    loss = true;
                 }
-            }
 
-            foreach (turet turet in turets)
-            {
-                turet.Update(projectiles, fish);
-            }
 
-            wepon.update(fish);
+                if (progectilcapacity == 0)
+                    reloding = true;
 
-            do
-            {
-                i = 0;
-                foreach (Projectile projectile in projectiles)
+                foreach (Robot robot in robots)
                 {
-                    projectile.Update();
-                    if (projectile.X < 0 || projectile.X > 1200 || projectile.Y < 0 || projectile.Y > 600 || projectile.bulletdistance > 15)
+                    robot.Update(golds, fish);
+                }
+
+                foreach (BadFish badfish in badfleet)
+                {
+                    badfish.Update(projectiles, wepon);
+
+                    if (badfish.helth <= 0)
                     {
-                        projectiles.Remove(projectile);
-                        i = 1;
+                        badfleet.Remove(badfish);
+                        golds.Add(new Gold((badfish.X + (badfish.Width / 2)), (badfish.Y + (badfish.Height / 2)), badfish.Size));
+                        badfleet.Add(new BadFish(badfish.Id, -200, GlobalHelpers.alea.Next(0, 600)));
+                        if (DoingQuest && QuestType == 1)
+                        {
+                            Quest.numberoffish++;
+                            Console.WriteLine("number of fish killed : " + Quest.numberoffish);
+                        }
+                        if (DoingQuest && QuestType == 2 && badfish.Type == 14)
+                        {
+                            Quest.numberoffish++;
+                        }
+                        if (DoingQuest && QuestType == 3 && badfish.Size >= 13)
+                        {
+                            Quest.numberoffish++;
+                        }
+
                         break;
                     }
                 }
-            } while (i == 1);
 
-            if (!ramdomEvent && !TalkingToPng)
-                u++;
-
-            //ramdon event
-            if (u >= rndU && !ramdomEvent && !TalkingToPng)
-            {
-                u = 0;
-                Console.Write("\nEvent : ");
-                ramdomEvent = true;
-                eventtype = GlobalHelpers.alea.Next(0, 2);
-
-                //shark event
-                if (eventtype == 0)
+                foreach (Jellyfish jellyfish in jellyfleet)
                 {
-                    Console.Write("Shark\n");
+                    jellyfish.Update(projectiles, wepon);
 
-                    Event.x = -200;
-                    Event.x2 = -200;
-                    Event.x3 = -200;
-                    Event.Health1 = 50;
-                    Event.Health2 = 50;
-                    Event.Health3 = 25;
-                }
-
-                if (eventtype == 1 && !won)
-                {
-                    Console.Write("Whale\n");
-                    
-                    jellyfleet.Clear();
-                    badfleet.Add(new BadFish(badfleet.Count, GlobalHelpers.alea.Next(-200, 0), GlobalHelpers.alea.Next(0, 400)));
-                    badfleet.Add(new BadFish(badfleet.Count, GlobalHelpers.alea.Next(-200, 0), GlobalHelpers.alea.Next(0, 400)));
-                    badfleet.Add(new BadFish(badfleet.Count, GlobalHelpers.alea.Next(-200, 0), GlobalHelpers.alea.Next(0, 400)));
-                }
-            }
-            bool repeat;   
-            //event update
-            if (ramdomEvent && !TalkingToPng)
-            {
-                EventTime++;
-
-                if (EventTime >= 1800 && eventtype == 0 || eventtype == 1 && EventTime >= 5000 || won)
-                {
-                    ramdomEvent = false;
-                    EventTime = 0;
-
-                    Event.x = -200;
-                    Event.x2 = -200;
-                    Event.x3 = -200;
-                    Event.Whalex = -1500;
-
-                    if (eventtype == 1) 
+                    if (jellyfish.Helth <= 0)
                     {
-                        for (int i = 0; i < 2; i++)
+                        jellyfleet.Remove(jellyfish);
+                        golds.Add(new Gold((jellyfish.X + (jellyfish.Width / 2)), (jellyfish.Y + (jellyfish.Height / 2)), jellyfish.Size));
+                        jellyfleet.Add(new Jellyfish(jellyfish.Id, GlobalHelpers.alea.Next(0, 1200), 800));
+                        if (DoingQuest && QuestType == 3 && jellyfish.Size >= 13)
                         {
-                            jellyfleet.Add(new Jellyfish(i, GlobalHelpers.alea.Next(0, 1200), GlobalHelpers.alea.Next(600, 800)));
+                            Quest.numberoffish++;
                         }
-                        do
+                        break;
+                    }
+                }
+
+                foreach (turet turet in turets)
+                {
+                    turet.Update(projectiles, fish);
+                }
+
+                wepon.update(fish);
+
+                do
+                {
+                    i = 0;
+                    foreach (Projectile projectile in projectiles)
+                    {
+                        projectile.Update();
+                        if (projectile.X < 0 || projectile.X > 1200 || projectile.Y < 0 || projectile.Y > 600 || projectile.bulletdistance > 15)
                         {
-                            repeat = false;
-                            foreach (BadFish badFish in badfleet)
+                            projectiles.Remove(projectile);
+                            i = 1;
+                            break;
+                        }
+                    }
+                } while (i == 1);
+
+                if (eventtype == 0 && AirSpace.EventTime >= 1000 && ramdomEvent)
+                {
+                    do
+                    {
+                        redo = false;
+                        foreach (Projectile projectile in projectiles)
+                        {
+
+                            if ((Event.x - Event.Widths1) <= (projectile.X + projectile.Width) && (200 - Event.Heights1) <= (projectile.Y + projectile.Height) && (Event.x + Event.Widths1) >= (projectile.X - projectile.Width) && (200 + Event.Heights1) >= (projectile.Y - projectile.Height) && Event.Health1 > 0)
                             {
-                                if (badFish.Id > 3)
-                                {
-                                    badfleet.Remove(badFish);
-                                    repeat = true;
-                                    break;
-                                }
+                                Event.Health1 -= projectile.Damage;
+                                Console.WriteLine("shark 1 health : " + Event.Health1);
+                                projectiles.Remove(projectile);
+                                redo = true;
+                                break;
                             }
-                        }while (repeat);
+
+
+                            if ((Event.x2 - Event.Widths2) <= (projectile.X + projectile.Width) && (400 - Event.Heights2) <= (projectile.Y + projectile.Height) && (Event.x2 + Event.Widths2) >= (projectile.X - projectile.Width) && (400 + Event.Heights2) >= (projectile.Y - projectile.Height) && Event.Health2 > 0)
+                            {
+                                Event.Health2 -= projectile.Damage;
+                                Console.WriteLine("shark 2 health : " + Event.Health2);
+                                projectiles.Remove(projectile);
+                                redo = true;
+                                break;
+                            }
+
+                            if ((Event.x3 - Event.Widths3) <= (projectile.X + projectile.Width) && (475 - Event.Heights3) <= (projectile.Y + projectile.Height) && (Event.x3 + Event.Widths3) >= (projectile.X - projectile.Width) && (475 + Event.Heights3) >= (projectile.Y - projectile.Height) && Event.Health3 > 0)
+                            {
+                                Event.Health3 -= projectile.Damage;
+                                Console.WriteLine("shark 3 health : " + Event.Health3);
+                                projectiles.Remove(projectile);
+                                redo = true;
+                                break;
+                            }
+
+                        }
+                    } while (redo);
+
+                }
+
+                if (!ramdomEvent && !TalkingToPng)
+                    u++;
+
+                //ramdon event
+                if (u >= rndU && !ramdomEvent && !TalkingToPng)
+                {
+                    u = 0;
+                    Console.Write("\nEvent : ");
+                    ramdomEvent = true;
+                    eventtype = GlobalHelpers.alea.Next(0, 2);
+
+                    //shark event
+                    if (eventtype == 0)
+                    {
+                        Console.Write("Shark\n");
+
+                        Event.x = -200;
+                        Event.x2 = -200;
+                        Event.x3 = -200;
+                        Event.Health1 = 50;
+                        Event.Health2 = 50;
+                        Event.Health3 = 25;
+                    }
+
+                    if (eventtype == 1 && !won)
+                    {
+                        Console.Write("Whale\n");
+
+                        jellyfleet.Clear();
+                        badfleet.Add(new BadFish(badfleet.Count, GlobalHelpers.alea.Next(-300, -200), GlobalHelpers.alea.Next(400, 600)));
+                        badfleet.Add(new BadFish(badfleet.Count, GlobalHelpers.alea.Next(-300, -200), GlobalHelpers.alea.Next(400, 600)));
+                        badfleet.Add(new BadFish(badfleet.Count, GlobalHelpers.alea.Next(-300, -200), GlobalHelpers.alea.Next(400, 600)));
+                    }
+                }
+                bool repeat;
+                //event update
+                if (ramdomEvent && !TalkingToPng)
+                {
+                    EventTime++;
+
+                    if (EventTime >= 1800 && eventtype == 0 || eventtype == 1 && EventTime >= 5000 || won)
+                    {
+                        ramdomEvent = false;
+                        EventTime = 0;
+
+                        Event.x = -200;
+                        Event.x2 = -200;
+                        Event.x3 = -200;
+                        Event.Whalex = -1500;
+
+                        if (eventtype == 1)
+                        {
+                            for (int i = 0; i < 2; i++)
+                            {
+                                jellyfleet.Add(new Jellyfish(i, GlobalHelpers.alea.Next(0, 1200), GlobalHelpers.alea.Next(600, 800)));
+                            }
+                            do
+                            {
+                                repeat = false;
+                                foreach (BadFish badFish in badfleet)
+                                {
+                                    if (badFish.Id > 3)
+                                    {
+                                        badfleet.Remove(badFish);
+                                        repeat = true;
+                                        break;
+                                    }
+                                }
+                            } while (repeat);
+                        }
+                    }
+                }
+
+                //doing quest
+                if (DoingQuest)
+                {
+                    if (QuestType == 0 && Quest.numberoffish >= 1)
+                    {
+                        Quest.numberoffish = 0;
+
+                        fish.Gold += questamount;
+
+                        DoingQuest = false;
+                    }
+
+                    if (QuestType == 1 && Quest.numberoffish >= 5)
+                    {
+                        Quest.numberoffish = 0;
+
+                        fish.Gold += questamount;
+
+                        DoingQuest = false;
+                    }
+
+                    if (QuestType == 2 && Quest.numberoffish >= 1)
+                    {
+                        Quest.numberoffish = 0;
+
+                        fish.Gold += questamount;
+
+                        DoingQuest = false;
+                    }
+
+                    if (QuestType == 3 && Quest.numberoffish >= 1)
+                    {
+                        Quest.numberoffish = 0;
+
+                        fish.Gold += questamount;
+
+                        DoingQuest = false;
+                    }
+                }
+
+                if (eventtype == 0 && ramdomEvent)
+                {
+
+                    if (Event.Health1 <= 0 && Event.x != 1300)
+                    {
+                        golds.Add(new Gold(Event.x, 200, 80));
+                        Event.x = 1300;
+                    }
+                    if (Event.Health2 <= 0 && Event.x2 != 1300)
+                    {
+                        golds.Add(new Gold(Event.x2, 400, 80));
+                        Event.x2 = 1300;
+                    }
+                    if (Event.Health3 <= 0 && Event.x3 != 1300)
+                    {
+
+                        golds.Add(new Gold(Event.x3, 475, 50));
+                        Event.x3 = 1300;
+                    }
+
+                    if (DoingQuest && Event.Health1 <= 0 && QuestType == 0 || DoingQuest && Event.Health2 <= 0 && QuestType == 0 || DoingQuest && Event.Health3 <= 0 && QuestType == 0)
+                        Quest.numberoffish++;
+                }
+
+                if (reloding)
+                {
+                    z++;
+
+                    if (z > 200)
+                    {
+                        reloding = false;
+                        if (Wepon.wepontype == 1)
+                            progectilcapacity = 12;
+                        else if (Wepon.wepontype == 2)
+                            progectilcapacity = 32;
+                        else if (Wepon.wepontype == 3)
+                            progectilcapacity = 5;
+                        else if (Wepon.wepontype == 4)
+                            progectilcapacity = 50;
+                        else if (Wepon.wepontype == 5)
+                            progectilcapacity = 100;
+                        else if (Wepon.wepontype == 6)
+                            progectilcapacity = 5;
+                        z = 0;
                     }
                 }
             }
 
-            //doing quest
-            if (DoingQuest)
-            {
-                if (QuestType == 0 && Quest.numberoffish >= 1)
-                {
-                    Quest.numberoffish = 0;
 
-                    fish.Gold += questamount;
 
-                    DoingQuest = false;
-                }
-
-                if (QuestType == 1 && Quest.numberoffish >= 5)
-                {
-                    Quest.numberoffish = 0;
-
-                    fish.Gold += questamount;
-
-                    DoingQuest = false;
-                }
-
-                if (QuestType == 2 && Quest.numberoffish >= 1)
-                {
-                    Quest.numberoffish = 0;
-
-                    fish.Gold += questamount;
-
-                    DoingQuest = false;
-                }
-
-                if (QuestType == 3 && Quest.numberoffish >= 1)
-                {
-                    Quest.numberoffish = 0;
-
-                    fish.Gold += questamount;
-
-                    DoingQuest = false;
-                }
-            }
-
-            if (eventtype == 0 && ramdomEvent)
-            {
-
-                if (Event.Health1 <= 0 && Event.x != 1300)
-                {
-                    golds.Add(new Gold(Event.x, 200, 80));
-                    Event.x = 1300;
-                }
-                if (Event.Health2 <= 0 && Event.x2 != 1300)
-                {
-                    golds.Add(new Gold(Event.x2, 400, 80));
-                    Event.x2 = 1300;
-                }
-                if (Event.Health3 <= 0 && Event.x3 != 1300)
-                {
-
-                    golds.Add(new Gold(Event.x3, 475, 50));
-                    Event.x3 = 1300;
-                }
-
-                if (DoingQuest && Event.Health1 <= 0 && QuestType == 0 || DoingQuest && Event.Health2 <= 0 && QuestType == 0 || DoingQuest && Event.Health3 <= 0 && QuestType == 0)
-                    Quest.numberoffish++;
-            }
-
-            if (reloding)
-            {
-                z++;
-
-                if (z > 200)
-                {
-                    reloding = false;
-                    if (Wepon.wepontype == 1)
-                        progectilcapacity = 12;
-                    else if (Wepon.wepontype == 2)
-                        progectilcapacity = 32;
-                    else if (Wepon.wepontype == 3)
-                        progectilcapacity = 5;
-                    else if (Wepon.wepontype == 4)
-                        progectilcapacity = 50;
-                    else if (Wepon.wepontype == 5)
-                        progectilcapacity = 100;
-                    else if (Wepon.wepontype == 6)
-                        progectilcapacity = 5;
-                    z = 0;
-                }
-            }
 
         }
 
         Image trophe = Image.FromFile("images/otherimage/victoire.png");
+        Image gameover = Image.FromFile("images/otherimage/gameover.png");
         // Affichage de la situation actuelle
         private void Render()
         {
 
             Graphics g = airspace.Graphics;
             g.DrawImage(background, 0, 0, WIDTH, HEIGHT);
-            
+
             if (won)
             {
                 airspace.Graphics.DrawImage(trophe, new Rectangle(10, 10, 1180, 580));
             }
+
+
 
             // Dessin des du poisson
 
@@ -862,6 +942,11 @@ namespace FishInvader
             foreach (Gold gold in golds)
             {
                 gold.Render(airspace);
+            }
+
+            foreach (Robot robot in robots)
+            {
+                robot.Render(airspace);
             }
 
             foreach (Heart heart in hearts)
@@ -934,6 +1019,15 @@ namespace FishInvader
                 projectile.Render(airspace);
             }
 
+            if (loss)
+            {
+                airspace.Graphics.DrawImage(gameover, new Rectangle(300, 10, 600, 400));
+                j++;
+                if (j > 120)
+                {
+                    airspace.Graphics.DrawString("press space to escape", TextHelpers.drawbigFont, TextHelpers.writingBrushPNJ, new Rectangle(475, 450, 300, 50));
+                }
+            }
 
 
             airspace.Render();

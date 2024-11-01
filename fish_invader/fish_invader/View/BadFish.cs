@@ -39,7 +39,6 @@ namespace FishInvader
             }
 
 
-
             if (PnjTouch == true || ShopTouch == true)
             {
                 drawingSpace.Graphics.TranslateTransform(1160, 565);

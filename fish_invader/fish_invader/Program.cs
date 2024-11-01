@@ -19,19 +19,19 @@ namespace FishInvader
 
             
             List<BadFish> badfleet = new List<BadFish>();
-            /*
+            
             for (int i = 0; i < 3; i++)
             {
                 badfleet.Add(new BadFish(i, GlobalHelpers.alea.Next(-200, 0), GlobalHelpers.alea.Next(0, 600)));
             }
-            */
+            
             List<Jellyfish> jellyfleet = new List<Jellyfish>(); 
-            /*
+            
             for (int i = 0; i < 2; i++)
             {
                 jellyfleet.Add(new Jellyfish(i, GlobalHelpers.alea.Next(0, 1200), GlobalHelpers.alea.Next(600, 800)));
             }
-            */
+            
 
             // Démarrage
             Application.Run(new AirSpace(badfleet, jellyfleet));

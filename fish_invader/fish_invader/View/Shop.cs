@@ -38,14 +38,14 @@ namespace fish_invader
         private Image[,] images = new Image[3, 5] 
             {
             {Image.FromFile("images/otherimage/gun.png"), Image.FromFile("images/otherimage/usi.png"), Image.FromFile("images/otherimage/potion.png"), Image.FromFile("images/otherimage/shotgun.png"),Image.FromFile("images/otherimage/scar.png")},
-            {Image.FromFile("images/otherimage/minigun.png"), Image.FromFile("images/otherimage/sniper.png"), Image.FromFile("images/otherimage/turet.png"), Image.FromFile("images/otherimage/kelp.png"), Image.FromFile("images/otherimage/missing_texture.png")},
+            {Image.FromFile("images/otherimage/minigun.png"), Image.FromFile("images/otherimage/sniper.png"), Image.FromFile("images/otherimage/turet.png"), Image.FromFile("images/otherimage/kelp.png"), Image.FromFile("images/otherimage/robot.png")},
             {Image.FromFile("images/otherimage/missing_texture.png"), Image.FromFile("images/otherimage/missing_texture.png"), Image.FromFile("images/otherimage/missing_texture.png"), Image.FromFile("images/otherimage/missing_texture.png"), Image.FromFile("images/otherimage/trophe.png")},
             };
 
         public int[,] price = new int[3, 5]
         {
             {10,27,15,34,60},
-            {100,140,35,15,0},
+            {100,140,35,15,45},
             {0,0,0,0,1000},
         };
 
@@ -193,9 +193,18 @@ namespace fish_invader
                         else
                             drawingSpace.Graphics.DrawRectangle(droneBrush, (180 + (170 * i)), (105 + (c * 165)), 100, 100);
 
-                        drawingSpace.Graphics.TranslateTransform((230 + (170 * i)), (155 + (c * 165))); // Déplace l'origine du dessin au centre du fish
-                        drawingSpace.Graphics.DrawImage(images[c,i], -images[c, i].Width / 2, -images[c, i].Height / 2);
-                        drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
+
+                        if (c == 1 && i == 4) 
+                        {
+                            drawingSpace.Graphics.DrawImage(images[c, i], new Rectangle((230 + (170 * i) - 30), (155 + (c * 165) - 30), 60, 60));
+                        }
+                        else
+                        {
+                            drawingSpace.Graphics.TranslateTransform((230 + (170 * i)), (155 + (c * 165))); // Déplace l'origine du dessin au centre du fish
+                            drawingSpace.Graphics.DrawImage(images[c, i], -images[c, i].Width / 2, -images[c, i].Height / 2);
+                            drawingSpace.Graphics.ResetTransform(); // Réinitialise la transformation
+                        }
+
 
                         drawingSpace.Graphics.DrawString(price[c,i].ToString(), TextHelpers.drawbigFont, TextHelpers.writingBrushGold, (210 + (170 * i)), (170 + (c * 165)));
                     }

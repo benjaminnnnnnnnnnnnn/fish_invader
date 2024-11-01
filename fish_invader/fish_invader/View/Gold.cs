@@ -13,6 +13,7 @@ namespace FishInvader
         private int _height;
         private int _width;
         private int _amount;
+        private int _lockedID = -1;
 
         public Image HeartImage { get; private set; }
         public int X { get => _x; set => _x = value; }
@@ -20,6 +21,7 @@ namespace FishInvader
         public int Height { get => _height; set => _height = value; }
         public int Width { get => _width; set => _width = value; }
         public int Amount { get => _amount; set => _amount = value; }
+        public int LockedID { get => _lockedID; set => _lockedID = value; }
 
         public Gold(int x, int y, int sizefish)
         {
